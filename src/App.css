@@ -1,42 +1,95 @@
-/* * {
-  margin: 10px;
-  border-radius: 20px;
-  border: 1px solid #00c0ff;
-  background-color: black;
-  color: #00c0ff;
-}
+/* styles.css */
 
+/* Global styles */
 body {
-  background-color: rgb(24, 24, 24);
-  color: #00c0ff;
-  font-family: sans-serif;
-  outline-color: #00c0ff;
-  padding: 50px;
-  margin: 10px;
-  text-align: center;
-  border-radius: 10px;
+  background-color: #1a1a1a;
+  color: #fff;
+  font-family: Arial, sans-serif;
 }
 
-p
-{
-  border: 0px;
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
-input, textarea {
-  background-color: rgb(24, 24, 24);
-  color: #ffffff;
-  border: 1px solid #00c0ff;
+/* Set the width of the label */
+label {
+  width: 100px; /* Adjust this value as needed */
+  display: inline-block; /* Ensure the label takes up the specified width */
+}
+
+/* Set the width of the input */
+input[type="text"] {
+  width: 200px; /* Adjust this value as needed */
+}
+
+/* Button styles */
+button {
+  background-color: #333;
+  color: #fff;
+  border: none;
+  padding: 2px 5px;
+  cursor: pointer;
   border-radius: 5px;
-  padding: 15px;
-  text-align: center;
+}
+
+button:hover {
+  background-color: #555;
+}
+
+/* InputNumber component styles */
+.input-number {
+  margin-bottom: 10px;
+}
+
+.input-number label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.input-number input[type="number"] {
+  width: 60px;
+  padding: 5px;
+  border: 1px solid #666;
+  border-radius: 3px;
+  background-color: #333;
+  color: #fff;
+}
+
+.input-number input[type="number"]:focus {
   outline: none;
 }
 
-button {
-  background-color: black;
-  color: #00c0ff;
-  border: 3px solid #00c0ff;
-  padding: 15px 20px;
-  cursor: pointer;
-  text-align: center;
-} */
+/* Output styles */
+.output {
+  margin-top: 20px;
+}
+
+/* Dark theme */
+.dark-theme {
+  background-color: #333;
+  color: #fff;
+}
+
+.dark-theme button {
+  background-color: #555;
+}
+
+.dark-theme button:hover {
+  background-color: #777;
+}
+
+.dark-theme .input-number input[type="number"] {
+  background-color: #555;
+  border-color: #888;
+}
+
+.dark-theme .input-number input[type="number"]:focus {
+  border-color: #fff;
+}
+
+/* Rounded corners */
+.rounded {
+  border-radius: 10px;
+}

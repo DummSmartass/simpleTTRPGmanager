@@ -37,18 +37,20 @@ function InputList({ labelFor }) {
 
   return (
     <div>
-      <button onClick={toggleInputs}>{showInputs ? 'Hide Inputs' : 'Show Inputs'}</button>
+      <label htmlFor={labelFor}>{labelFor}:</label>
+      <button onClick={toggleInputs}>{showInputs ? 'Hide' : 'Show'}</button>
       {showInputs && (
         <div>
           {inputs.map(input => (
             <div key={labelFor + input.id} style={{ display: 'flex', alignItems: 'center' }}>
-              <InputElement labelFor={labelFor + `${input.id}`} labelText={labelFor + `${input.id}`} />
               <button onClick={() => deleteInput(input.id)}>Delete</button>
+              <InputElement labelFor={labelFor + `${input.id}`} labelText={labelFor + `${input.id}`} />
             </div>
           ))}
           <button onClick={addInput}>Add Input</button>
         </div>
       )}
+      <br/>
     </div>
   );
 }
