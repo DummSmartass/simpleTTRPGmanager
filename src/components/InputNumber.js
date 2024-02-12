@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-function InputNumber({ labelFor, labelText }) {
+function InputNumber({ labelFor }) {
   const [value, setValue] = useState(parseInt(localStorage.getItem(labelFor)) || '');
 
   useEffect(() => {
@@ -16,7 +16,7 @@ function InputNumber({ labelFor, labelText }) {
 
   return (
     <div>
-      <label htmlFor={labelFor}>{labelText}:</label>
+      <label htmlFor={labelFor}>{labelFor}:</label>
       <input
         type="number"
         id={labelFor}
