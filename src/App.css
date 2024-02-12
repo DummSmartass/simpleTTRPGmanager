@@ -1,0 +1,42 @@
+/* * {
+  margin: 10px;
+  border-radius: 20px;
+  border: 1px solid #00c0ff;
+  background-color: black;
+  color: #00c0ff;
+}
+
+body {
+  background-color: rgb(24, 24, 24);
+  color: #00c0ff;
+  font-family: sans-serif;
+  outline-color: #00c0ff;
+  padding: 50px;
+  margin: 10px;
+  text-align: center;
+  border-radius: 10px;
+}
+
+p
+{
+  border: 0px;
+}
+
+input, textarea {
+  background-color: rgb(24, 24, 24);
+  color: #ffffff;
+  border: 1px solid #00c0ff;
+  border-radius: 5px;
+  padding: 15px;
+  text-align: center;
+  outline: none;
+}
+
+button {
+  background-color: black;
+  color: #00c0ff;
+  border: 3px solid #00c0ff;
+  padding: 15px 20px;
+  cursor: pointer;
+  text-align: center;
+} */
