@@ -10,9 +10,9 @@ function StatPoints() {
     const refreshInterval = setInterval(() => {
       const updatedPointsLeft = calculatePointsLeft();
       setPointsLeft(updatedPointsLeft);
-      const updatedHP = calculateHP();
+      const updatedHP = calculateHP(); // Recalculate HP every second
       setHP(updatedHP);
-    }, 1000); 
+    }, 1000); // Refresh every second
 
     return () => clearInterval(refreshInterval);
   }, []);
@@ -32,8 +32,8 @@ function StatPoints() {
   };
 
   const calculateHP = () => {
-    const life = parseInt(localStorage.getItem("Life")) || 0;
-    return life * life;
+    const life = parseInt(localStorage.getItem("life")) || 0; // Fetch "life" from localStorage
+    return life * life; // Calculate HP based on life
   };
 
   const toggleInputs = () => {
@@ -47,7 +47,7 @@ function StatPoints() {
       {showInputs && (
         <div>
           <InputNumber labelFor="Stat points"/>
-          <div>Points left: {pointsLeft}</div>
+          <label>Points left: {pointsLeft}</label>
           <br/>
           <InputNumber labelFor="strength"/>
           <InputNumber labelFor="speed"/>
@@ -57,7 +57,7 @@ function StatPoints() {
           <InputNumber labelFor="will"/>
           <InputNumber labelFor="charisma"/>
           <InputNumber labelFor="life"/>
-          <div>HP: {HP}</div>
+          <label>HP: {HP}</label>
         </div>
       )}
     <br/>

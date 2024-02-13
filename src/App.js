@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import InputElement from './components/InputElement';
 import InputNumber from './components/InputNumber';
 import InputList from './components/InputList';
-import StatPoints from './components/StatPoints'; // Import the StatPoints component
+import StatPoints from './components/StatPoints'; 
+import Roller from './components/Roller'; 
 import './App.css';
 
 function App() {
@@ -22,6 +23,8 @@ function App() {
       <InputList labelFor="ability" />
       <br/>
       <InputList labelFor="Items" />
+      <br/>
+      <Roller/>
     </div>
   );
 }

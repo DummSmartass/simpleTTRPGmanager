@@ -14,12 +14,12 @@ function InputElement({ labelFor }) {
   return (
     <div>
       <label htmlFor={labelFor}>{labelFor}:</label>
-      <input
-        type="text"
+      <textarea
         id={labelFor}
         name={labelFor}
         value={value}
         onChange={handleChange}
+        className="input-element"
       />
     </div>
   );
