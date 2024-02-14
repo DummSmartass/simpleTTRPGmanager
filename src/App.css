@@ -1,5 +1,9 @@
 /* styles.css */
 
+* {
+  font-size: 30px;
+}
+
 /* Global styles */
 body {
   background-color: #1a1a1a;
@@ -98,12 +102,12 @@ button:hover {
 }
 
 textarea {
-  width: 1000px;
-  height: 60px;
+  width: 500px;
+  height: 100px;
 }
 
 textarea[id=name] {
-  width: 100px;
-  height: 15px;
+  width: 200px;
+  height: 35px;
 }
 
