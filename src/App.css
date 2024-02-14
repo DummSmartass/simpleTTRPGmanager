@@ -99,12 +99,17 @@ button:hover {
 
 textarea {
   margin-left: 40px;
-  width: 250px;
+  width: 200px;
   height: 60px;
 }
 
 textarea[id=name] {
   width: 100px;
+  height: 15px;
+}
+
+textarea[id=description] {
+  width: 300px;
   height: 15px;
 }
 
