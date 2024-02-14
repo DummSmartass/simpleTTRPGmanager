@@ -98,7 +98,8 @@ button:hover {
 }
 
 textarea {
-  width: 300px;
+  margin-left: 40px;
+  width: 250px;
   height: 60px;
 }
 
