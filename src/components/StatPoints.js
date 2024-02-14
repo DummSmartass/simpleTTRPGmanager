@@ -47,7 +47,8 @@ function StatPoints() {
       {showInputs && (
         <div>
           <InputNumber labelFor="Stat points"/>
-          <label>Points left: {pointsLeft}</label>
+          <label>Points left:</label>
+          <label id="pointsLeft">{pointsLeft}:</label>
           <br/>
           <InputNumber labelFor="strength"/>
           <InputNumber labelFor="speed"/>
