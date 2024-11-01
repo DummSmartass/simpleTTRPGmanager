@@ -1,9 +1,7 @@
-/* styles.css */
-
 /* Global styles */
 body {
   background-color: #000000;
-  color: #fff;
+  color: #ddd; /* Light gray for better readability */
   font-family: Arial, sans-serif;
 }
 
@@ -28,7 +26,7 @@ input[type="text"] {
 /* Button styles */
 button {
   background-color: #333;
-  color: #fff;
+  color: #ddd; /* Light gray for better readability */
   border: none;
   padding: 2px 5px;
   cursor: pointer;
@@ -52,12 +50,12 @@ button:hover {
 }
 
 .input-number input[type="number"] {
-  width: 60px;
-  padding: 5px;
+  width: 100px;
+  padding: 15px;
   border: 1px solid #666;
   border-radius: 8px;
   background-color: #333;
-  color: #fff;
+  color: #ddd; /* Light gray for better readability */
 }
 
 .input-number input[type="number"]:focus {
@@ -72,7 +70,7 @@ button:hover {
 /* Dark theme */
 .dark-theme {
   background-color: #333;
-  color: #fff;
+  color: #ddd; /* Light gray for better readability */
 }
 
 .dark-theme button {
@@ -101,6 +99,11 @@ textarea {
   margin-left: 40px;
   width: 200px;
   height: 60px;
+  background-color: #333;
+  color: #ddd; /* Light gray for better readability */
+  border: 1px solid #666;
+  border-radius: 5px;
+  padding: 5px;
 }
 
 textarea[id=name] {
@@ -113,3 +116,44 @@ textarea[id=description] {
   height: 15px;
 }
 
+.textarea {
+  background-color: #333;
+  color: #ddd; /* Light gray for better readability */
+}
+
+/* styles.css */
+
+.input-element textarea {
+  width: 60px;
+  height: 20px;
+  padding: 5px;
+  border-radius: 5px;
+  background-color: #333;
+  color: #ddd; /* Light gray for better readability */
+  border: 1px solid #666;
+}
+
+.input-element.small textarea {
+  width: 40px;
+}
+
+/* Stat Points styles */
+.stat-points table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.stat-points th, .stat-points td {
+  border: 1px solid #666;
+  padding: 8px;
+  text-align: center;
+}
+
+.stat-points th {
+  background-color: #555;
+  color: #ddd;
+}
+
+.stat-points tr:nth-child(even) {
+  background-color: #444;
+}

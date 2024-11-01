@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import InputNumber from './InputNumber';
+import InputElement from './InputElement';
 
 function StatPoints() {
-    const [pointsLeft, setPointsLeft] = useState(0); // Initialize pointsLeft state
-    const [HP, setHP] = useState(0); // Initialize HP state
     const [showInputs, setShowInputs] = useState(false);
     const [stats, setStats] = useState({
         strength: { points: 5, expertise: 0, prowess: 0 },
@@ -16,17 +15,6 @@ function StatPoints() {
         charisma: { points: 5, expertise: 0, prowess: 0 },
         life: { points: 5, expertise: 0, prowess: 0 },
     });
-
-    useEffect(() => {
-        const refreshInterval = setInterval(() => {
-            const updatedPointsLeft = calculatePointsLeft();
-            setPointsLeft(updatedPointsLeft);
-            const updatedHP = calculateHP(); // Recalculate HP every second
-            setHP(updatedHP);
-        }, 1000); // Refresh every second
-
-        return () => clearInterval(refreshInterval);
-    }, []);
 
     useEffect(() => {
         const savedStats = JSON.parse(localStorage.getItem('stats')) || {};
@@ -51,15 +39,15 @@ function StatPoints() {
         return Object.values(stats).reduce((acc, { points }) => acc + points, 0);
     };
 
-    const calculatePointsLeft = () => {
+    const calculateTotalPoints = () => {
         const statPointsAvailable = parseInt(localStorage.getItem("Stat points")) || 0;
         const pointsSpent = calculatePointsSpent();
-        return statPointsAvailable - pointsSpent;
+        return statPointsAvailable + pointsSpent;
     };
 
     const calculateHP = () => {
-        const life = stats.life.points || 0; // Fetch "life" from stats
-        return life * life; // Calculate HP based on life
+        const life = stats.life.points || 0;
+        return life * life;
     };
 
     const handleInputChange = (stat, field, value) => {
@@ -77,13 +65,14 @@ function StatPoints() {
     };
 
     return (
-        <div>
+        <div className="stat-points">
             <label htmlFor="Stats">Stats:</label>
             <button onClick={toggleInputs}>{showInputs ? 'Hide' : 'Show'}</button>
             {showInputs && (
                 <table>
                     <thead>
                     <tr>
+                        <th>Stat</th>
                         <th>Points</th>
                         <th>Experience</th>
                         <th>Prowess</th>
@@ -92,19 +81,44 @@ function StatPoints() {
                     <tbody>
                     {Object.keys(stats).map(stat => (
                         <tr key={stat}>
-                            <td><InputNumber labelFor={stat} value={stats[stat].points} onChange={value => handleInputChange(stat, 'points', value)} /></td>
-                            <td><InputNumber labelFor={`${stat}_expertise`} value={stats[stat].expertise} onChange={value => handleInputChange(stat, 'expertise', value)} /></td>
-                            <td><InputNumber labelFor={`${stat}_prowess`} value={stats[stat].prowess} onChange={value => handleInputChange(stat, 'prowess', value)} /></td>
+                            <td>{stat.charAt(0).toUpperCase() + stat.slice(1)}</td>
+                            <td>
+                                <InputNumber
+                                    labelFor={`${stat}_points`}
+                                    hideLabel
+                                    small
+                                    value={stats[stat].points}
+                                    onChange={value => handleInputChange(stat, 'points', value)}
+                                />
+                            </td>
+                            <td>
+                                <InputNumber
+                                    labelFor={`${stat}_expertise`}
+                                    hideLabel
+                                    small
+                                    value={stats[stat].expertise}
+                                    onChange={value => handleInputChange(stat, 'expertise', value)}
+                                />
+                            </td>
+                            <td>
+                                <InputNumber
+                                    labelFor={`${stat}_prowess`}
+                                    hideLabel
+                                    small
+                                    value={stats[stat].prowess}
+                                    onChange={value => handleInputChange(stat, 'prowess', value)}
+                                />
+                            </td>
                         </tr>
                     ))}
                     </tbody>
                 </table>
             )}
             <br/>
-            <label>Points left:</label>
-            <label id="pointsLeft">{pointsLeft}</label>
+            <label>Total Points:</label>
+            <label id="totalPoints">{calculateTotalPoints()}</label>
             <br/>
-            <label>HP: {HP}</label>
+            <label>HP: {calculateHP()}</label>
         </div>
     );
 }
