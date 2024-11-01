@@ -23,7 +23,7 @@ function App() {
       <br/>
       <InputList labelFor="ability" />
       <br/>
-      <InputList labelFor="Items" />
+      <InputList labelFor="Item" />
       <br/>
       <Roller/>
     </div>
@@ -32,3 +32,7 @@ function App() {
 
 
 export default App;
+
+
+
+

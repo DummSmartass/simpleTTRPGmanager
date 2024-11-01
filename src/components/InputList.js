@@ -6,29 +6,60 @@ function InputList({ labelFor }) {
   const [showInputs, setShowInputs] = useState(false);
 
   useEffect(() => {
-    const storedLength = localStorage.getItem('inputListLength');
-    if (storedLength) {
-      const parsedLength = parseInt(storedLength);
-      if (!isNaN(parsedLength)) {
-        const initialInputs = [];
-        for (let i = 1; i <= parsedLength; i++) {
-          initialInputs.push({ id: i });
-        }
-        setInputs(initialInputs);
+    const storedLength = parseInt(localStorage.getItem(`${labelFor}ListLength`)) || 0;
+    const initialInputs = [];
+    for (let i = 1; i <= storedLength; i++) {
+      const name = `${labelFor}${i}`;
+      const storedValue = localStorage.getItem(name);
+      if (storedValue !== null) {
+        initialInputs.push({ name, editableName: name });
       }
     }
-  }, []);
+    setInputs(initialInputs);
+  }, [labelFor]);
 
-  const addInput = () => {
-    const newInput = { id: inputs.length + 1 };
-    setInputs([...inputs, newInput]);
-    localStorage.setItem('inputListLength', inputs.length + 1);
+  const findNextAvailableName = () => {
+    let index = 1;
+    while (inputs.some(input => input.name === `${labelFor}${index}`)) {
+      index++;
+    }
+    return `${labelFor}${index}`;
   };
 
-  const deleteInput = (id) => {
-    const updatedInputs = inputs.filter(input => input.id !== id);
+  const addInput = () => {
+    const newName = findNextAvailableName();
+    const updatedInputs = [...inputs, { name: newName, editableName: newName }];
     setInputs(updatedInputs);
-    localStorage.setItem('inputListLength', inputs.length - 1);
+    localStorage.setItem(newName, '');
+    localStorage.setItem(`${labelFor}ListLength`, updatedInputs.length);
+  };
+
+  const deleteInput = (name) => {
+    const updatedInputs = inputs.filter(input => input.name !== name);
+    setInputs(updatedInputs);
+    localStorage.removeItem(name);
+    localStorage.setItem(`${labelFor}ListLength`, updatedInputs.length);
+  };
+
+  const handleNameChange = (index, newName) => {
+    const updatedInputs = [...inputs];
+    updatedInputs[index].editableName = newName;
+    setInputs(updatedInputs);
+  };
+
+  const handleNameSave = (index) => {
+    const updatedInputs = [...inputs];
+    const newName = updatedInputs[index].editableName.trim();
+
+    // Ensure the new name is unique and not empty
+    if (newName && !inputs.some((input, i) => input.name === newName && i !== index) && newName !== "name" && newName !== "description") {
+      localStorage.removeItem(updatedInputs[index].name);  // Remove old key
+      updatedInputs[index].name = newName;  // Update to new name
+      localStorage.setItem(newName, localStorage.getItem(updatedInputs[index].name) || ''); // Save with the new name
+      setInputs(updatedInputs);
+    } else {
+      alert("Name must be unique and cannot be 'name' or 'description'");
+    }
   };
 
   const toggleInputs = () => {
@@ -36,22 +67,22 @@ function InputList({ labelFor }) {
   };
 
   return (
-    <div>
-      <label htmlFor={labelFor}>{labelFor}:</label>
-      <button onClick={toggleInputs}>{showInputs ? 'Hide' : 'Show'}</button>
-      {showInputs && (
-        <div>
-          {inputs.map(input => (
-            <div key={labelFor + input.id} style={{ display: 'flex', alignItems: 'center' }}>
-              <button onClick={() => deleteInput(input.id)}>Delete</button>
-              <InputElement labelFor={labelFor + `${input.id}`} labelText={labelFor + `${input.id}`} />
+      <div>
+        <label htmlFor={labelFor}>{labelFor}:</label>
+        <button onClick={toggleInputs}>{showInputs ? 'Hide' : 'Show'}</button>
+        {showInputs && (
+            <div>
+              {inputs.map((input, index) => (
+                  <div key={input.name} style={{ display: 'flex', alignItems: 'center' }}>
+                    <button onClick={() => deleteInput(input.name)}>Delete</button>
+                    <InputElement labelFor={input.name} />
+                  </div>
+              ))}
+              <button onClick={addInput}>Add Input</button>
             </div>
-          ))}
-          <button onClick={addInput}>Add Input</button>
-        </div>
-      )}
-      <br/>
-    </div>
+        )}
+        <br />
+      </div>
   );
 }
 
