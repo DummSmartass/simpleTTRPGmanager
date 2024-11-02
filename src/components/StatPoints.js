@@ -1,7 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import InputNumber from './InputNumber';
 
-// Updated TotalPoints component to calculate total points every 0.5 seconds
+const defaultStats = {
+    Strength: 5,
+    Speed: 5,
+    Coordination: 5,
+    Endurance: 5,
+    Perception: 5,
+    Intelligence: 5,
+    Will: 5,
+    Charisma: 5,
+    Life: 5,
+};
+
 function TotalPoints() {
     const [totalPoints, setTotalPoints] = useState(0);
 
@@ -28,13 +39,12 @@ function TotalPoints() {
     );
 }
 
-// Updated HPTotal component to calculate HP total every 0.5 seconds
 function HPTotal() {
     const [hpTotal, setHPTotal] = useState(0);
 
     useEffect(() => {
         const interval = setInterval(() => {
-            const life = parseInt(localStorage.getItem('life_points')) || 0;
+            const life = parseInt(localStorage.getItem('Life_points')) || 0;
             setHPTotal(life * life);
         }, 500);
 
@@ -52,7 +62,24 @@ function HPTotal() {
 
 
 function StatPoints() {
+    //localStorage.clear();
+
     const [showInputs, setShowInputs] = useState(false);
+
+    useEffect(() => {
+        // Initialize default stats in localStorage if they don't exist
+        Object.keys(defaultStats).forEach(stat => {
+            if (!localStorage.getItem(`${stat}_points`)) {
+                localStorage.setItem(`${stat}_points`, defaultStats[stat]);
+            }
+            if (!localStorage.getItem(`${stat}_expertise`)) {
+                localStorage.setItem(`${stat}_expertise`, 0);
+            }
+            if (!localStorage.getItem(`${stat}_prowess`)) {
+                localStorage.setItem(`${stat}_prowess`, 0);
+            }
+        });
+    }, []);
 
     const toggleInputs = () => {
         setShowInputs(!showInputs);
@@ -67,58 +94,54 @@ function StatPoints() {
             <label htmlFor="Stats">Stats:</label>
             <button onClick={toggleInputs}>{showInputs ? 'Hide' : 'Show'}</button>
             {showInputs && (
-                <table>
-                    <thead>
-                    <tr>
-                        <th>Stat</th>
-                        <th>Points</th>
-                        <th>Experience</th>
-                        <th>Prowess</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {Object.keys(localStorage).map(key => {
-                        if (key.endsWith('_points')) {
-                            const stat = key.split('_')[0];
-                            return (
-                                <tr key={stat}>
-                                    <td>{stat.charAt(0).toUpperCase() + stat.slice(1)}</td>
-                                    <td>
-                                        <InputNumber
-                                            labelFor={key}
-                                            hideLabel
-                                            small
-                                            value={localStorage.getItem(key)}
-                                            onBlur={handleBlur}
-                                        />
-                                    </td>
-                                    <td>
-                                        <InputNumber
-                                            labelFor={`${stat}_expertise`}
-                                            hideLabel
-                                            small
-                                            value={localStorage.getItem(`${stat}_expertise`)}
-                                            onBlur={handleBlur}
-                                        />
-                                    </td>
-                                    <td>
-                                        <InputNumber
-                                            labelFor={`${stat}_prowess`}
-                                            hideLabel
-                                            small
-                                            value={localStorage.getItem(`${stat}_prowess`)}
-                                            onBlur={handleBlur}
-                                        />
-                                    </td>
-                                </tr>
-                            );
-                        }
-                        return null;
-                    })}
-                    <TotalPoints /> {/* Add the TotalPoints component here */}
-                    <HPTotal /> {/* Add the HPTotal component here */}
-                    </tbody>
-                </table>
+                <div className="data-table">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Stat</th>
+                            <th>Points</th>
+                            <th>Experience</th>
+                            <th>Prowess</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {['Strength', 'Speed', 'Coordination', 'Endurance', 'Perception', 'Intelligence', 'Will', 'Charisma', 'Life'].map(stat => (
+                            <tr key={stat}>
+                                <td>{stat}</td>
+                                <td>
+                                    <InputNumber
+                                        labelFor={`${stat}_points`}
+                                        hideLabel
+                                        small
+                                        value={localStorage.getItem(`${stat}_points`)}
+                                        onBlur={handleBlur}
+                                    />
+                                </td>
+                                <td>
+                                    <InputNumber
+                                        labelFor={`${stat}_expertise`}
+                                        hideLabel
+                                        small
+                                        value={localStorage.getItem(`${stat}_expertise`)}
+                                        onBlur={handleBlur}
+                                    />
+                                </td>
+                                <td>
+                                    <InputNumber
+                                        labelFor={`${stat}_prowess`}
+                                        hideLabel
+                                        small
+                                        value={localStorage.getItem(`${stat}_prowess`)}
+                                        onBlur={handleBlur}
+                                    />
+                                </td>
+                            </tr>
+                        ))}
+                        <TotalPoints />
+                        <HPTotal />
+                        </tbody>
+                    </table>
+                </div>
             )}
         </div>
     );
