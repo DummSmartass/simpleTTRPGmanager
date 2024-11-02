@@ -10,10 +10,27 @@ function Roller() {
     }
 
     return (
-        <div>
-            <InputNumber labelFor="Max"/>
-            <button onClick={myFunction}>Roll</button>
-            <label id="result">no roll so far</label>
+        <div className="data-table">
+            <table>
+                <tbody>
+                <tr>
+                    <td>
+                        <label htmlFor="Max">Max:</label>
+                    </td>
+                    <td>
+                        <InputNumber labelFor="Max" hideLabel />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button onClick={myFunction}>Roll</button>
+                    </td>
+                    <td>
+                        <label id="result">no roll so far</label>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     );
 }

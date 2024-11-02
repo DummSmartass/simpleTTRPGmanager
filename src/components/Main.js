@@ -14,9 +14,28 @@ function App() {
             </a>
             <br/>
             <br/>
-            <InputElement labelFor="name"/>
-            <InputElement labelFor="description"/>
-            <br/>
+            <div className="data-table">
+                <table>
+                    <tbody>
+                    <tr>
+                        <td>
+                            <label htmlFor="name">Name:</label>
+                        </td>
+                        <td>
+                            <InputElement labelFor="name" hideLabel />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label htmlFor="description">Description:</label>
+                        </td>
+                        <td>
+                            <InputElement labelFor="description" hideLabel />
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
             <br/>
             <StatPoints />
             <br/>

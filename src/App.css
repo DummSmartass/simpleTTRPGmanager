@@ -157,3 +157,262 @@ textarea[id=description] {
 .stat-points tr:nth-child(even) {
   background-color: #444;
 }
+
+
+/* Global styles */
+body {
+  background-color: #000000;
+  color: #ddd; /* Light gray for better readability */
+  font-family: Arial, sans-serif;
+}
+
+/* InputNumber component styles */
+.input-number input[type="text"] {
+  width: 60px; /* Adjust this value as needed */
+  padding: 5px;
+  border-radius: 5px;
+  background-color: #333;
+  color: #ddd; /* Light gray for better readability */
+  border: 1px solid #666;
+}
+
+.input-number input[type="text"].small {
+  width: 40px; /* Adjust this value as needed */
+}
+
+/* Global styles */
+body {
+  background-color: #000000;
+  color: #ddd; /* Light gray for better readability */
+  font-family: Arial, sans-serif;
+}
+
+/* InputNumber component styles */
+.input-number input[type="text"] {
+  width: 60px; /* Adjust this value as needed */
+  padding: 5px;
+  border-radius: 5px;
+  background-color: #333;
+  color: #ddd; /* Light gray for better readability */
+  border: 1px solid #666;
+}
+
+.input-number input[type="text"].small {
+  width: 40px; /* Adjust this value as needed */
+}
+
+/* Data table styles */
+.data-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.data-table th, .data-table td {
+  border: 1px solid #666;
+  padding: 8px;
+  text-align: center;
+}
+
+.data-table th {
+  background-color: #555;
+  color: #ddd;
+}
+
+.data-table tr:nth-child(even) {
+  background-color: #444;
+}
+
+/* Global styles */
+body {
+  background-color: #000000;
+  color: #ddd; /* Light gray for better readability */
+  font-family: Arial, sans-serif;
+}
+
+/* InputNumber component styles */
+.input-number input[type="text"] {
+  width: 60px; /* Adjust this value as needed */
+  padding: 5px;
+  border-radius: 5px;
+  background-color: #333;
+  color: #ddd; /* Light gray for better readability */
+  border: 1px solid #666;
+}
+
+.input-number input[type="text"].small {
+  width: 40px; /* Adjust this value as needed */
+}
+
+/* Data table styles */
+.data-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.data-table th, .data-table td {
+  border: 1px solid #666;
+  padding: 8px;
+  text-align: center;
+}
+
+.data-table th {
+  background-color: #555;
+  color: #ddd;
+}
+
+.data-table tr:nth-child(even) {
+  background-color: #444;
+}
+
+/* Input alignment */
+.input-row {
+  display: flex;
+  align-items: center;
+}
+
+.input-row label {
+  width: 150px; /* Adjust this value as needed */
+  margin-right: 20px;
+}
+
+.input-row textarea {
+  flex: 1;
+  margin-right: 20px;
+  background-color: #333;
+  color: #ddd; /* Light gray for better readability */
+  border: 1px solid #666;
+  border-radius: 5px;
+  padding: 5px;
+  resize: none;
+}
+
+/* Roller styles */
+.roller-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.roller-table th, .roller-table td {
+  border: 1px solid #666;
+  padding: 8px;
+  text-align: center;
+}
+
+.roller-table th {
+  background-color: #555;
+  color: #ddd;
+}
+
+.roller-table tr:nth-child(even) {
+  background-color: #444;
+}
+
+/* Global styles */
+body {
+  background-color: #000000;
+  color: #ddd; /* Light gray for better readability */
+  font-family: Arial, sans-serif;
+}
+
+/* InputNumber component styles */
+.input-number input[type="text"] {
+  width: 60px; /* Adjust this value as needed */
+  padding: 5px;
+  border-radius: 5px;
+  background-color: #333;
+  color: #ddd; /* Light gray for better readability */
+  border: 1px solid #666;
+}
+
+.input-number input[type="text"].small {
+  width: 40px; /* Adjust this value as needed */
+}
+
+/* Data table styles */
+.data-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.data-table th, .data-table td {
+  border: 1px solid #666;
+  padding: 8px;
+  text-align: center;
+}
+
+.data-table th {
+  background-color: #555;
+  color: #ddd;
+}
+
+.data-table tr:nth-child(even) {
+  background-color: #444;
+}
+
+/* Align textareas to the right */
+.data-table td:nth-child(2) {
+  text-align: right;
+}
+
+.data-table td:nth-child(2) textarea {
+  width: calc(100% - 20px); /* Adjust width to leave some space on the right */
+  margin-left: 10px;
+}
+
+/* Specific textarea styles for name and description */
+textarea[id="name"], textarea[id="description"] {
+  width: calc(100% - 20px); /* Adjust width to leave some space on the right */
+  margin-left: 10px;
+}
+
+/* Specific styles for abilities and items */
+textarea[name="ability"], textarea[name="Item"] {
+  width: calc(100% - 20px); /* Adjust width to leave some space on the right */
+  margin-left: 10px;
+}
+
+
+
+
+/*!* Global styles *!*/
+/*body {*/
+/*  background-color: #000000;*/
+/*  color: #ddd; !* Light gray for better readability *!*/
+/*  font-family: Arial, sans-serif;*/
+/*}*/
+
+/*!* InputNumber component styles *!*/
+/*.input-number input[type="text"] {*/
+/*  width: 60px; !* Adjust this value as needed *!*/
+/*  padding: 5px;*/
+/*  border-radius: 5px;*/
+/*  background-color: #333;*/
+/*  color: #ddd; !* Light gray for better readability *!*/
+/*  border: 1px solid #666;*/
+/*}*/
+
+/*.input-number input[type="text"].small {*/
+/*  width: 40px; !* Adjust this value as needed *!*/
+/*}*/
+
+/*!* Data table styles *!*/
+/*.data-table table {*/
+/*  width: 100%;*/
+/*  border-collapse: collapse;*/
+/*}*/
+
+/*.data-table th, .data-table td {*/
+/*  border: 1px solid #666;*/
+/*  padding: 8px;*/
+/*  text-align: center;*/
+/*}*/
+
+/*.data-table th {*/
+/*  background-color: #555;*/
+/*  color: #ddd;*/
+/*}*/
+
+/*.data-table tr:nth-child(even) {*/
+/*  background-color: #444;*/
+/*}*/
+

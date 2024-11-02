@@ -51,11 +51,10 @@ function InputList({ labelFor }) {
     const updatedInputs = [...inputs];
     const newName = updatedInputs[index].editableName.trim();
 
-    // Ensure the new name is unique and not empty
     if (newName && !inputs.some((input, i) => input.name === newName && i !== index) && newName !== "name" && newName !== "description") {
-      localStorage.removeItem(updatedInputs[index].name);  // Remove old key
-      updatedInputs[index].name = newName;  // Update to new name
-      localStorage.setItem(newName, localStorage.getItem(updatedInputs[index].name) || ''); // Save with the new name
+      localStorage.removeItem(updatedInputs[index].name);
+      updatedInputs[index].name = newName;
+      localStorage.setItem(newName, localStorage.getItem(updatedInputs[index].name) || '');
       setInputs(updatedInputs);
     } else {
       alert("Name must be unique and cannot be 'name' or 'description'");
@@ -67,21 +66,26 @@ function InputList({ labelFor }) {
   };
 
   return (
-      <div>
+      <div className="data-table">
         <label htmlFor={labelFor}>{labelFor}:</label>
         <button onClick={toggleInputs}>{showInputs ? 'Hide' : 'Show'}</button>
         {showInputs && (
-            <div>
+            <table>
+              <tbody>
               {inputs.map((input, index) => (
-                  <div key={input.name} style={{ display: 'flex', alignItems: 'center' }}>
-                    <button onClick={() => deleteInput(input.name)}>Delete</button>
-                    <InputElement labelFor={input.name} />
-                  </div>
+                  <tr key={input.name}>
+                    <td>
+                      <button onClick={() => deleteInput(input.name)}>Delete</button>
+                    </td>
+                    <td>
+                      <InputElement labelFor={input.name} />
+                    </td>
+                  </tr>
               ))}
-              <button onClick={addInput}>Add Input</button>
-            </div>
+              </tbody>
+            </table>
         )}
-        <br />
+        <button onClick={addInput}>Add Input</button>
       </div>
   );
 }

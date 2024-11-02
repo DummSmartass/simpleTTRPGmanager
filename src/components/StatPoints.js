@@ -1,67 +1,65 @@
 import React, { useState, useEffect } from 'react';
 import InputNumber from './InputNumber';
-import InputElement from './InputElement';
+
+// Updated TotalPoints component to calculate total points every 0.5 seconds
+function TotalPoints() {
+    const [totalPoints, setTotalPoints] = useState(0);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            let points = 0;
+            Object.keys(localStorage).forEach(key => {
+                if (key.endsWith('_points')) {
+                    points += parseInt(localStorage.getItem(key)) || 0;
+                }
+            });
+            setTotalPoints(points);
+        }, 500);
+
+        return () => clearInterval(interval);
+    }, []);
+
+    return (
+        <tr>
+            <td colSpan="4" style={{ textAlign: 'left' }}>
+                <strong>Total Points:</strong> {totalPoints}
+            </td>
+        </tr>
+    );
+}
+
+// Updated HPTotal component to calculate HP total every 0.5 seconds
+function HPTotal() {
+    const [hpTotal, setHPTotal] = useState(0);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            const life = parseInt(localStorage.getItem('life_points')) || 0;
+            setHPTotal(life * life);
+        }, 500);
+
+        return () => clearInterval(interval);
+    }, []);
+
+    return (
+        <tr>
+            <td colSpan="4" style={{ textAlign: 'left' }}>
+                <strong>HP Total:</strong> {hpTotal}
+            </td>
+        </tr>
+    );
+}
+
 
 function StatPoints() {
     const [showInputs, setShowInputs] = useState(false);
-    const [stats, setStats] = useState({
-        strength: { points: 5, expertise: 0, prowess: 0 },
-        speed: { points: 5, expertise: 0, prowess: 0 },
-        coordination: { points: 5, expertise: 0, prowess: 0 },
-        endurance: { points: 5, expertise: 0, prowess: 0 },
-        perception: { points: 5, expertise: 0, prowess: 0 },
-        intelligence: { points: 5, expertise: 0, prowess: 0 },
-        will: { points: 5, expertise: 0, prowess: 0 },
-        charisma: { points: 5, expertise: 0, prowess: 0 },
-        life: { points: 5, expertise: 0, prowess: 0 },
-    });
-
-    useEffect(() => {
-        const savedStats = JSON.parse(localStorage.getItem('stats')) || {};
-        const updatedStats = {};
-
-        for (const stat in stats) {
-            updatedStats[stat] = {
-                points: savedStats[stat]?.points || 5,
-                expertise: savedStats[stat]?.expertise || 0,
-                prowess: savedStats[stat]?.prowess || 0,
-            };
-        }
-
-        setStats(updatedStats);
-    }, []);
-
-    useEffect(() => {
-        localStorage.setItem('stats', JSON.stringify(stats));
-    }, [stats]);
-
-    const calculatePointsSpent = () => {
-        return Object.values(stats).reduce((acc, { points }) => acc + points, 0);
-    };
-
-    const calculateTotalPoints = () => {
-        const statPointsAvailable = parseInt(localStorage.getItem("Stat points")) || 0;
-        const pointsSpent = calculatePointsSpent();
-        return statPointsAvailable + pointsSpent;
-    };
-
-    const calculateHP = () => {
-        const life = stats.life.points || 0;
-        return life * life;
-    };
-
-    const handleInputChange = (stat, field, value) => {
-        setStats(prevStats => ({
-            ...prevStats,
-            [stat]: {
-                ...prevStats[stat],
-                [field]: value,
-            },
-        }));
-    };
 
     const toggleInputs = () => {
         setShowInputs(!showInputs);
+    };
+
+    const handleBlur = () => {
+        // Trigger recalculation of TotalPoints and HPTotal
     };
 
     return (
@@ -79,46 +77,49 @@ function StatPoints() {
                     </tr>
                     </thead>
                     <tbody>
-                    {Object.keys(stats).map(stat => (
-                        <tr key={stat}>
-                            <td>{stat.charAt(0).toUpperCase() + stat.slice(1)}</td>
-                            <td>
-                                <InputNumber
-                                    labelFor={`${stat}_points`}
-                                    hideLabel
-                                    small
-                                    value={stats[stat].points}
-                                    onChange={value => handleInputChange(stat, 'points', value)}
-                                />
-                            </td>
-                            <td>
-                                <InputNumber
-                                    labelFor={`${stat}_expertise`}
-                                    hideLabel
-                                    small
-                                    value={stats[stat].expertise}
-                                    onChange={value => handleInputChange(stat, 'expertise', value)}
-                                />
-                            </td>
-                            <td>
-                                <InputNumber
-                                    labelFor={`${stat}_prowess`}
-                                    hideLabel
-                                    small
-                                    value={stats[stat].prowess}
-                                    onChange={value => handleInputChange(stat, 'prowess', value)}
-                                />
-                            </td>
-                        </tr>
-                    ))}
+                    {Object.keys(localStorage).map(key => {
+                        if (key.endsWith('_points')) {
+                            const stat = key.split('_')[0];
+                            return (
+                                <tr key={stat}>
+                                    <td>{stat.charAt(0).toUpperCase() + stat.slice(1)}</td>
+                                    <td>
+                                        <InputNumber
+                                            labelFor={key}
+                                            hideLabel
+                                            small
+                                            value={localStorage.getItem(key)}
+                                            onBlur={handleBlur}
+                                        />
+                                    </td>
+                                    <td>
+                                        <InputNumber
+                                            labelFor={`${stat}_expertise`}
+                                            hideLabel
+                                            small
+                                            value={localStorage.getItem(`${stat}_expertise`)}
+                                            onBlur={handleBlur}
+                                        />
+                                    </td>
+                                    <td>
+                                        <InputNumber
+                                            labelFor={`${stat}_prowess`}
+                                            hideLabel
+                                            small
+                                            value={localStorage.getItem(`${stat}_prowess`)}
+                                            onBlur={handleBlur}
+                                        />
+                                    </td>
+                                </tr>
+                            );
+                        }
+                        return null;
+                    })}
+                    <TotalPoints /> {/* Add the TotalPoints component here */}
+                    <HPTotal /> {/* Add the HPTotal component here */}
                     </tbody>
                 </table>
             )}
-            <br/>
-            <label>Total Points:</label>
-            <label id="totalPoints">{calculateTotalPoints()}</label>
-            <br/>
-            <label>HP: {calculateHP()}</label>
         </div>
     );
 }
