@@ -39,7 +39,7 @@ function App() {
             <br/>
             <StatPoints />
             <br/>
-            <InputList labelFor="ability" />
+            <InputList labelFor="Ability" />
             <br/>
             <InputList labelFor="Item" />
             <br/>
