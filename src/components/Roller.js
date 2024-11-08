@@ -7,7 +7,7 @@ function Roller() {
 
     // Roll dice with given sides and levels of advantage/disadvantage
     const rollDice = (sides, advantage = 0, disadvantage = 0) => {
-        const numRolls = Math.max(1, advantage || disadvantage || 1);
+        const numRolls = Math.max(1, advantage+1, disadvantage+1);
         const rolls = Array.from({ length: numRolls }, () => Math.floor(Math.random() * sides) + 1);
 
         let rollResult;

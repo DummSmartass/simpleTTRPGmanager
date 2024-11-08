@@ -3,7 +3,9 @@ import InputElement from './InputElement';
 
 function InputList({ labelFor }) {
   const [inputs, setInputs] = useState([]);
-  const [showInputs, setShowInputs] = useState(false);
+  const [showInputs, setShowInputs] = useState(() => {
+    return localStorage.getItem(`${labelFor}_showInputs`) === "true";
+  });
 
   useEffect(() => {
     const storedLength = parseInt(localStorage.getItem(`${labelFor}ListLength`)) || 0;
@@ -41,28 +43,12 @@ function InputList({ labelFor }) {
     localStorage.setItem(`${labelFor}ListLength`, updatedInputs.length);
   };
 
-  const handleNameChange = (index, newName) => {
-    const updatedInputs = [...inputs];
-    updatedInputs[index].editableName = newName;
-    setInputs(updatedInputs);
-  };
-
-  const handleNameSave = (index) => {
-    const updatedInputs = [...inputs];
-    const newName = updatedInputs[index].editableName.trim();
-
-    if (newName && !inputs.some((input, i) => input.name === newName && i !== index) && newName !== "name" && newName !== "description") {
-      localStorage.removeItem(updatedInputs[index].name);
-      updatedInputs[index].name = newName;
-      localStorage.setItem(newName, localStorage.getItem(updatedInputs[index].name) || '');
-      setInputs(updatedInputs);
-    } else {
-      alert("Name must be unique and cannot be 'name' or 'description'");
-    }
-  };
-
   const toggleInputs = () => {
-    setShowInputs(!showInputs);
+    setShowInputs(prevState => {
+      const newState = !prevState;
+      localStorage.setItem(`${labelFor}_showInputs`, newState);
+      return newState;
+    });
   };
 
   return (
@@ -72,7 +58,7 @@ function InputList({ labelFor }) {
         {showInputs && (
             <table>
               <tbody>
-              {inputs.map((input, index) => (
+              {inputs.map((input) => (
                   <tr key={input.name}>
                     <td>
                       <button onClick={() => deleteInput(input.name)}>Delete</button>

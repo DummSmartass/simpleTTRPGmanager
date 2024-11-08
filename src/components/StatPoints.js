@@ -17,7 +17,7 @@ function TotalPoints() {
     const [totalPoints, setTotalPoints] = useState(0);
 
     useEffect(() => {
-        const interval = setInterval(() => {
+        const calculateTotalPoints = () => {
             let points = 0;
             Object.keys(localStorage).forEach(key => {
                 if (key.endsWith('_points')) {
@@ -25,7 +25,10 @@ function TotalPoints() {
                 }
             });
             setTotalPoints(points);
-        }, 500);
+        };
+
+        calculateTotalPoints();
+        const interval = setInterval(calculateTotalPoints, 500);
 
         return () => clearInterval(interval);
     }, []);
@@ -43,10 +46,13 @@ function HPTotal() {
     const [hpTotal, setHPTotal] = useState(0);
 
     useEffect(() => {
-        const interval = setInterval(() => {
+        const calculateHPTotal = () => {
             const life = parseInt(localStorage.getItem('Life_points')) || 0;
             setHPTotal(life * life);
-        }, 500);
+        };
+
+        calculateHPTotal();
+        const interval = setInterval(calculateHPTotal, 500);
 
         return () => clearInterval(interval);
     }, []);
@@ -60,14 +66,12 @@ function HPTotal() {
     );
 }
 
-
 function StatPoints() {
-    //localStorage.clear();
-
-    const [showInputs, setShowInputs] = useState(false);
+    const [showInputs, setShowInputs] = useState(() => {
+        return localStorage.getItem("StatPoints_showInputs") === "true";
+    });
 
     useEffect(() => {
-        // Initialize default stats in localStorage if they don't exist
         Object.keys(defaultStats).forEach(stat => {
             if (!localStorage.getItem(`${stat}_points`)) {
                 localStorage.setItem(`${stat}_points`, defaultStats[stat]);
@@ -82,11 +86,15 @@ function StatPoints() {
     }, []);
 
     const toggleInputs = () => {
-        setShowInputs(!showInputs);
+        setShowInputs(prevState => {
+            const newState = !prevState;
+            localStorage.setItem("StatPoints_showInputs", newState);
+            return newState;
+        });
     };
 
     const handleBlur = () => {
-        // Trigger recalculation of TotalPoints and HPTotal
+        // Recalculate TotalPoints and HPTotal on value change
     };
 
     return (
@@ -105,7 +113,7 @@ function StatPoints() {
                         </tr>
                         </thead>
                         <tbody>
-                        {['Strength', 'Speed', 'Coordination', 'Endurance', 'Perception', 'Intelligence', 'Will', 'Charisma', 'Life'].map(stat => (
+                        {Object.keys(defaultStats).map(stat => (
                             <tr key={stat}>
                                 <td>{stat}</td>
                                 <td>
@@ -113,7 +121,6 @@ function StatPoints() {
                                         labelFor={`${stat}_points`}
                                         hideLabel
                                         small
-                                        value={localStorage.getItem(`${stat}_points`)}
                                         onBlur={handleBlur}
                                     />
                                 </td>
@@ -122,7 +129,6 @@ function StatPoints() {
                                         labelFor={`${stat}_expertise`}
                                         hideLabel
                                         small
-                                        value={localStorage.getItem(`${stat}_expertise`)}
                                         onBlur={handleBlur}
                                     />
                                 </td>
@@ -131,7 +137,6 @@ function StatPoints() {
                                         labelFor={`${stat}_prowess`}
                                         hideLabel
                                         small
-                                        value={localStorage.getItem(`${stat}_prowess`)}
                                         onBlur={handleBlur}
                                     />
                                 </td>

@@ -8,12 +8,17 @@ import '../App.css';
 function App() {
     return (
         <div>
-            {/* LINK DO INFORMACJI POMOCNICZYCH */}
+            {/* Link to Helper Information */}
             <a href="Info">
-                <img src="https://ih0.redbubble.net/image.2765244619.7810/raf,360x360,075,t,fafafa:ca443f4786.jpg" style={{ position: 'absolute', top: 30, right: 30, width:"50px" }} alt="Helper Information" />
+                <img
+                    src="https://ih0.redbubble.net/image.2765244619.7810/raf,360x360,075,t,fafafa:ca443f4786.jpg"
+                    style={{ position: 'absolute', top: 30, right: 30, width: '50px' }}
+                    alt="Helper Information"
+                />
             </a>
-            <br/>
-            <br/>
+            <br />
+            <br />
+            {/* Data Table for Name and Description */}
             <div className="data-table">
                 <table>
                     <tbody>
@@ -36,14 +41,19 @@ function App() {
                     </tbody>
                 </table>
             </div>
-            <br/>
+            <br />
+            {/* Stat Points Component */}
             <StatPoints />
-            <br/>
-            <InputList labelFor="Ability" />
-            <br/>
+            <br />
+            {/* Ability and Item Input Lists */}
+            <InputList labelFor="ability" />
+            <br />
             <InputList labelFor="Item" />
-            <br/>
-            <Roller/>
+            <br />
+            {/* Roller Component */}
+            <Roller />
+            <br />
+            {/* Data Buttons (Download & Upload) Component */}
         </div>
     );
 }
