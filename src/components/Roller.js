@@ -7,7 +7,7 @@ function Roller() {
 
     // Roll dice with given sides and levels of advantage/disadvantage
     const rollDice = (sides, advantage = 0, disadvantage = 0) => {
-        const numRolls = Math.max(1, advantage+1, disadvantage+1);
+        const numRolls = Math.max(1, advantage + 1, disadvantage + 1);
         const rolls = Array.from({ length: numRolls }, () => Math.floor(Math.random() * sides) + 1);
 
         let rollResult;
@@ -60,6 +60,12 @@ function Roller() {
         parseExpression(expression);
     };
 
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            handleRoll();
+        }
+    };
+
     return (
         <div className="data-table">
             <table>
@@ -75,10 +81,10 @@ function Roller() {
                             name="expression"
                             value={expression}
                             onChange={(e) => setExpression(e.target.value)}
+                            onKeyDown={handleKeyDown}
                             placeholder="Enter dice expression"
                             style={{ width: '98%' }}
                         />
-
                     </td>
                 </tr>
                 <tr>

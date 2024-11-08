@@ -372,7 +372,13 @@ textarea[name="ability"], textarea[name="Item"] {
 }
 
 
-
+input[type="text"], textarea {
+  background-color: #333;
+  color: #ddd;
+  border: 1px solid #555;
+  padding: 5px;
+  border-radius: 5px;
+}
 
 
 
