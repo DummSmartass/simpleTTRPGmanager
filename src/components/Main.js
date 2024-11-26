@@ -228,10 +228,10 @@ function App() {
             <br />
             {/* Ability and Item Input Lists */}
             <h2>{t.abilities}</h2>
-            <InputList labelFor="ability" label={t.abilities} />
+            <InputList labelFor="ability" />
             <br />
             <h2>{t.items}</h2>
-            <InputList labelFor="Item" label={t.items} fixedLabel="Items:" />
+            <InputList labelFor="Item" />
             <br />
             {/* Roller Component */}
             <h2>{t.roller}</h2>
