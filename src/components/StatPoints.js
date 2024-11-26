@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import InputNumber from './InputNumber';
+import { useLanguage } from './LanguageContext';
 
 const defaultStats = {
     Strength: 5,
@@ -13,8 +14,53 @@ const defaultStats = {
     Life: 5,
 };
 
+const translations = {
+    en: {
+        stats: "Stats:",
+        show: "Show",
+        hide: "Hide",
+        totalPoints: "Total Points:",
+        hpTotal: "HP Total:",
+        stat: "Stat",
+        points: "Points",
+        expertise: "Expertise",
+        prowess: "Prowess",
+        Strength: "Strength",
+        Speed: "Speed",
+        Coordination: "Coordination",
+        Endurance: "Endurance",
+        Perception: "Perception",
+        Intelligence: "Intelligence",
+        Will: "Will",
+        Charisma: "Charisma",
+        Life: "Life",
+    },
+    pl: {
+        stats: "Statystyki:",
+        show: "Pokaż",
+        hide: "Ukryj",
+        totalPoints: "Suma Punktów:",
+        hpTotal: "Suma HP:",
+        stat: "Statystyka",
+        points: "Punkty",
+        expertise: "Ekspertyza",
+        prowess: "Wprawa",
+        Strength: "Siła",
+        Speed: "Szybkość",
+        Coordination: "Koordynacja",
+        Endurance: "Wytrzymałość",
+        Perception: "Percepcja",
+        Intelligence: "Inteligencja",
+        Will: "Wola",
+        Charisma: "Charyzma",
+        Life: "Życie",
+    }
+};
+
 function TotalPoints() {
     const [totalPoints, setTotalPoints] = useState(0);
+    const { language } = useLanguage();
+    const t = translations[language];
 
     useEffect(() => {
         const calculateTotalPoints = () => {
@@ -31,12 +77,12 @@ function TotalPoints() {
         const interval = setInterval(calculateTotalPoints, 500);
 
         return () => clearInterval(interval);
-    }, []);
+    }, [language]);
 
     return (
         <tr>
             <td colSpan="4" style={{ textAlign: 'left' }}>
-                <strong>Total Points:</strong> {totalPoints}
+                <strong>{t.totalPoints}</strong> {totalPoints}
             </td>
         </tr>
     );
@@ -44,6 +90,8 @@ function TotalPoints() {
 
 function HPTotal() {
     const [hpTotal, setHPTotal] = useState(0);
+    const { language } = useLanguage();
+    const t = translations[language];
 
     useEffect(() => {
         const calculateHPTotal = () => {
@@ -55,12 +103,12 @@ function HPTotal() {
         const interval = setInterval(calculateHPTotal, 500);
 
         return () => clearInterval(interval);
-    }, []);
+    }, [language]);
 
     return (
         <tr>
             <td colSpan="4" style={{ textAlign: 'left' }}>
-                <strong>HP Total:</strong> {hpTotal}
+                <strong>{t.hpTotal}</strong> {hpTotal}
             </td>
         </tr>
     );
@@ -70,6 +118,8 @@ function StatPoints() {
     const [showInputs, setShowInputs] = useState(() => {
         return localStorage.getItem("StatPoints_showInputs") === "true";
     });
+    const { language } = useLanguage();
+    const t = translations[language];
 
     useEffect(() => {
         Object.keys(defaultStats).forEach(stat => {
@@ -99,23 +149,23 @@ function StatPoints() {
 
     return (
         <div className="stat-points">
-            <label htmlFor="Stats">Stats:</label>
-            <button onClick={toggleInputs}>{showInputs ? 'Hide' : 'Show'}</button>
+            <label htmlFor="Stats">{t.stats}</label>
+            <button onClick={toggleInputs}>{showInputs ? t.hide : t.show}</button>
             {showInputs && (
                 <div className="data-table">
                     <table>
                         <thead>
                         <tr>
-                            <th>Stat</th>
-                            <th>Points</th>
-                            <th>Experience</th>
-                            <th>Prowess</th>
+                            <th>{t.stat}</th>
+                            <th>{t.points}</th>
+                            <th>{t.expertise}</th>
+                            <th>{t.prowess}</th>
                         </tr>
                         </thead>
                         <tbody>
                         {Object.keys(defaultStats).map(stat => (
                             <tr key={stat}>
-                                <td>{stat}</td>
+                                <td>{t[stat]}</td>
                                 <td>
                                     <InputNumber
                                         labelFor={`${stat}_points`}

@@ -3,9 +3,37 @@ import InputElement from './InputElement';
 import InputList from './InputList';
 import StatPoints from './StatPoints';
 import Roller from './Roller';
+import { LanguageProvider, useLanguage } from './LanguageContext';
 import './App.css';
 
+const translations = {
+    en: {
+        helperInfo: "Helper Information",
+        name: "Name:",
+        description: "Description:",
+        generateJSON: "Generate JSON File",
+        uploadJSON: "Upload JSON File",
+        stats: "Stats:",
+        abilities: "Abilities:",
+        items: "Items:",
+        roller: "Roller:",
+    },
+    pl: {
+        helperInfo: "Informacje Pomocnicze",
+        name: "Imię:",
+        description: "Opis:",
+        generateJSON: "Wygeneruj Plik JSON",
+        uploadJSON: "Prześlij Plik JSON",
+        stats: "Statystyki:",
+        abilities: "Umiejętności:",
+        items: "Przedmioty:",
+        roller: "Rzut:",
+    }
+};
+
 function App() {
+    const { language, toggleLanguage } = useLanguage();
+    const t = translations[language];
 
     const generateJSON = () => {
         // Collect name and description
@@ -157,12 +185,15 @@ function App() {
 
     return (
         <div>
+            <button onClick={toggleLanguage} style={{ position: 'absolute', top: 10, left: 10, padding: '10px 20px', fontSize: '16px' }}>
+                {language === 'en' ? 'Przełącz na Polski' : 'Switch to English'}
+            </button>
             {/* Link to Helper Information */}
             <a href="Info">
                 <img
                     src="https://ih0.redbubble.net/image.2765244619.7810/raf,360x360,075,t,fafafa:ca443f4786.jpg"
                     style={{ position: 'absolute', top: 30, right: 30, width: '50px' }}
-                    alt="Helper Information"
+                    alt={t.helperInfo}
                 />
             </a>
             <br />
@@ -173,7 +204,7 @@ function App() {
                     <tbody>
                     <tr>
                         <td>
-                            <label htmlFor="name">Name:</label>
+                            <label htmlFor="name">{t.name}</label>
                         </td>
                         <td>
                             <InputElement labelFor="name" hideLabel />
@@ -181,7 +212,7 @@ function App() {
                     </tr>
                     <tr>
                         <td>
-                            <label htmlFor="description">Description:</label>
+                            <label htmlFor="description">{t.description}</label>
                         </td>
                         <td>
                             <InputElement labelFor="description" hideLabel />
@@ -192,19 +223,23 @@ function App() {
             </div>
             <br />
             {/* Stat Points Component */}
+            <h2>{t.stats}</h2>
             <StatPoints />
             <br />
             {/* Ability and Item Input Lists */}
-            <InputList labelFor="ability" />
+            <h2>{t.abilities}</h2>
+            <InputList labelFor="ability" label={t.abilities} />
             <br />
-            <InputList labelFor="Item" />
+            <h2>{t.items}</h2>
+            <InputList labelFor="Item" label={t.items} fixedLabel="Items:" />
             <br />
             {/* Roller Component */}
+            <h2>{t.roller}</h2>
             <Roller />
             <br />
             {/* Generate JSON Button */}
             <button onClick={generateJSON} style={{ padding: '10px 20px', fontSize: '16px' }}>
-                Generate JSON File
+                {t.generateJSON}
             </button>
             {/* Upload JSON Button */}
             <input
@@ -217,4 +252,10 @@ function App() {
     );
 }
 
-export default App;
+const AppWithLanguageProvider = () => (
+    <LanguageProvider>
+        <App />
+    </LanguageProvider>
+);
+
+export default AppWithLanguageProvider;

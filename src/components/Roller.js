@@ -1,9 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLanguage } from './LanguageContext';
+
+const translations = {
+    en: {
+        expression: "Expression:",
+        roll: "Roll",
+        noRoll: "no roll so far",
+        invalidExpression: "Invalid expression",
+        placeholder: "Enter dice expression"
+    },
+    pl: {
+        expression: "Wyrażenie:",
+        roll: "Rzuć",
+        noRoll: "brak rzutu dotąd",
+        invalidExpression: "Nieprawidłowe wyrażenie",
+        placeholder: "Wprowadź wyrażenie rzutu"
+    }
+};
 
 function Roller() {
     const [expression, setExpression] = useState('');
-    const [result, setResult] = useState('no roll so far');
+    const [result, setResult] = useState('');
     const [breakdown, setBreakdown] = useState('');
+    const { language } = useLanguage();
+    const t = translations[language];
+
+    useEffect(() => {
+        setResult(t.noRoll);
+    }, [language, t.noRoll]);
 
     // Roll dice with given sides and levels of advantage/disadvantage
     const rollDice = (sides, advantage = 0, disadvantage = 0) => {
@@ -51,7 +75,7 @@ function Roller() {
 
             setBreakdown(`${breakdownString} = ${evalResult}`);
         } catch {
-            setResult('Invalid expression');
+            setResult(t.invalidExpression);
             setBreakdown('');
         }
     };
@@ -72,7 +96,7 @@ function Roller() {
                 <tbody>
                 <tr>
                     <td>
-                        <label htmlFor="expression">Expression:</label>
+                        <label htmlFor="expression">{t.expression}</label>
                     </td>
                     <td>
                         <input
@@ -82,14 +106,14 @@ function Roller() {
                             value={expression}
                             onChange={(e) => setExpression(e.target.value)}
                             onKeyDown={handleKeyDown}
-                            placeholder="Enter dice expression"
+                            placeholder={t.placeholder}
                             style={{ width: '98%' }}
                         />
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <button onClick={handleRoll}>Roll</button>
+                        <button onClick={handleRoll}>{t.roll}</button>
                     </td>
                     <td>
                         <label id="result" style={{ fontWeight: 'bold' }}>
