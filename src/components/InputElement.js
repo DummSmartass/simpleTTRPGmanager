@@ -13,7 +13,6 @@ function InputElement({ labelFor, hideLabel = false }) {
 
     return (
         <div>
-            {!hideLabel && <label htmlFor={labelFor}>{labelFor}:</label>}
             <textarea
                 id={labelFor}
                 name={labelFor}

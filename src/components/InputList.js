@@ -26,43 +26,33 @@ function InputList({ labelFor }) {
   const t = translations[language];
 
   useEffect(() => {
-    const storedLength = parseInt(localStorage.getItem(`${labelFor}ListLength`)) || 0;
-    const initialInputs = [];
-    for (let i = 1; i <= storedLength; i++) {
-      const name = `${labelFor}${i}`;
-      const storedValue = localStorage.getItem(name);
-      if (storedValue !== null) {
-        initialInputs.push({ name, editableName: name });
-      }
-    }
-    setInputs(initialInputs);
-  }, [labelFor, language]);
+    const storedInputs = JSON.parse(localStorage.getItem(`${labelFor}_inputs`)) || [];
+    setInputs(storedInputs);
+  }, [labelFor]);
 
-  const findNextAvailableName = () => {
-    let index = 1;
-    while (inputs.some(input => input.name === `${labelFor}${index}`)) {
-      index++;
-    }
-    return `${labelFor}${index}`;
+  const saveInputsToLocalStorage = (newInputs) => {
+    localStorage.setItem(`${labelFor}_inputs`, JSON.stringify(newInputs));
   };
 
   const addInput = () => {
-    const newName = findNextAvailableName();
-    const updatedInputs = [...inputs, { name: newName, editableName: newName }];
+    const newInput = {
+      id: `${labelFor}_${Date.now()}`, // Unique ID
+      name: "",
+    };
+    const updatedInputs = [...inputs, newInput];
     setInputs(updatedInputs);
-    localStorage.setItem(newName, '');
-    localStorage.setItem(`${labelFor}ListLength`, updatedInputs.length);
+    saveInputsToLocalStorage(updatedInputs);
   };
 
-  const deleteInput = (name) => {
-    const updatedInputs = inputs.filter(input => input.name !== name);
+  const deleteInput = (id) => {
+    const updatedInputs = inputs.filter((input) => input.id !== id);
     setInputs(updatedInputs);
-    localStorage.removeItem(name);
-    localStorage.setItem(`${labelFor}ListLength`, updatedInputs.length);
+    saveInputsToLocalStorage(updatedInputs);
+    localStorage.removeItem(id); // Remove associated storage
   };
 
   const toggleInputs = () => {
-    setShowInputs(prevState => {
+    setShowInputs((prevState) => {
       const newState = !prevState;
       localStorage.setItem(`${labelFor}_showInputs`, newState);
       return newState;
@@ -71,18 +61,17 @@ function InputList({ labelFor }) {
 
   return (
       <div className="data-table">
-        <label htmlFor={labelFor}>{labelFor}:</label>
         <button onClick={toggleInputs}>{showInputs ? t.hide : t.show}</button>
         {showInputs && (
             <table>
               <tbody>
               {inputs.map((input) => (
-                  <tr key={input.name}>
+                  <tr key={input.id}>
                     <td>
-                      <button onClick={() => deleteInput(input.name)}>{t.delete}</button>
+                      <button onClick={() => deleteInput(input.id)}>{t.delete}</button>
                     </td>
                     <td>
-                      <InputElement labelFor={input.name} />
+                      <InputElement labelFor={input.id} />
                     </td>
                   </tr>
               ))}
@@ -93,5 +82,6 @@ function InputList({ labelFor }) {
       </div>
   );
 }
+
 
 export default InputList;
