@@ -1,5 +1,5 @@
-
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const translations = {
     en: {
@@ -305,7 +305,7 @@ const translations = {
         note: "Uwaga:",
         noteDesc: "Jeśli wymaganie nie zostało wspomniane, jest pewne, że jest poniżej 4 (0 jest poniżej 4) lub wymaga rzucania przeciwko innemu bytowi.",
         terms: "Terminy JEŚLI NIEKTÓRE TERMINY BYŁY NIEJASNE",
-                passiveValues: "Wartości Pasywne",
+        passiveValues: "Wartości Pasywne",
         passiveValuesDesc: "Określane bezpośrednio przez statystyki Twojej postaci, te wartości dyktują automatyczne zachowanie Twojej postaci bez konieczności rzucania kośćmi.",
         action: "Akcja:",
         actionDesc: "Każdy wybór lub ruch Twojej postaci, każdy z nich wymaga określonej liczby punktów akcji, chyba że stwierdzono inaczej.",
@@ -334,6 +334,7 @@ const translations = {
 
 function AdditionalInfo() {
     const [language, setLanguage] = useState('en');
+    const navigate = useNavigate();
 
     const toggleLanguage = () => {
         setLanguage(language === 'en' ? 'pl' : 'en');
@@ -343,8 +344,12 @@ function AdditionalInfo() {
 
     return (
         <div className="container">
+            <button onClick={() => navigate(-1)}>
+                {language === 'en' ? 'Back' : 'Wstecz'}
+            </button>
+
             <button onClick={toggleLanguage}>
-                {language === 'en' ? 'Switch to Polish' : 'Switch to English'}
+                {language === 'en' ? 'Switch to Polish' : 'Przełącz na English'}
             </button>
             <h1>{t.title}</h1>
 
