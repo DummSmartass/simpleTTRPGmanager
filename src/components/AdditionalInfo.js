@@ -349,7 +349,7 @@ function AdditionalInfo() {
             </button>
 
             <button onClick={toggleLanguage}>
-                {language === 'en' ? 'Switch to Polish' : 'Przełącz na English'}
+                {language === 'en' ? 'Switch to Polish' : 'Przełącz na Angielski'}
             </button>
             <h1>{t.title}</h1>
 
