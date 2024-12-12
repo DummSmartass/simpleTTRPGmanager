@@ -388,6 +388,13 @@ input[type="text"], textarea {
   z-index: 1000; /* Ensure it stays on top of other elements */
 }
 
+.floating-icon {
+  position: fixed;
+  top: 30px; /* Adjust this value as needed */
+  right: 30px; /* Adjust this value as needed */
+  width: 50px; /* Adjust this value as needed */
+  z-index: 1000; /* Ensure it stays on top of other elements */
+}
 
 
 /*!* Global styles *!*/

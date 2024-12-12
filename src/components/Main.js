@@ -192,7 +192,7 @@ function App() {
             <a href="Info">
                 <img
                     src="https://ih0.redbubble.net/image.2765244619.7810/raf,360x360,075,t,fafafa:ca443f4786.jpg"
-                    style={{ position: 'absolute', top: 30, right: 30, width: '50px' }}
+                    style={{ position: 'fixed', top: '30px', right: '30px', width: '50px' }}
                     alt={t.helperInfo}
                 />
             </a>
