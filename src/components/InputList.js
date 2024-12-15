@@ -8,12 +8,16 @@ const translations = {
     delete: "Delete",
     show: "Show",
     hide: "Hide",
+    name: "Name:",
+    description: "Description:",
   },
   pl: {
     addInput: "Dodaj Wpis",
     delete: "Usuń",
     show: "Pokaż",
     hide: "Ukryj",
+    name: "Nazwa:",
+    description: "Opis:",
   }
 };
 
@@ -38,6 +42,7 @@ function InputList({ labelFor }) {
     const newInput = {
       id: `${labelFor}_${Date.now()}`, // Unique ID
       name: "",
+      description: "",
     };
     const updatedInputs = [...inputs, newInput];
     setInputs(updatedInputs);
@@ -48,7 +53,8 @@ function InputList({ labelFor }) {
     const updatedInputs = inputs.filter((input) => input.id !== id);
     setInputs(updatedInputs);
     saveInputsToLocalStorage(updatedInputs);
-    localStorage.removeItem(id); // Remove associated storage
+    localStorage.removeItem(`${id}_name`);
+    localStorage.removeItem(`${id}_description`);
   };
 
   const toggleInputs = () => {
@@ -71,7 +77,12 @@ function InputList({ labelFor }) {
                       <button onClick={() => deleteInput(input.id)}>{t.delete}</button>
                     </td>
                     <td>
-                      <InputElement labelFor={input.id} />
+                      <div className="input-container">
+                        <label className="input-label">{t.name}</label>
+                        <InputElement labelFor={`${input.id}_name`} className="name-input" />
+                        <label className="input-label">{t.description}</label>
+                        <InputElement labelFor={`${input.id}_description`} className="description-input" />
+                      </div>
                     </td>
                   </tr>
               ))}
@@ -82,6 +93,5 @@ function InputList({ labelFor }) {
       </div>
   );
 }
-
 
 export default InputList;

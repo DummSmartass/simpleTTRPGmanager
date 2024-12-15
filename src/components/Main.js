@@ -90,24 +90,18 @@ function App() {
         };
 
         // Collect abilities
-        const abilities = [];
-        const abilityListLength = parseInt(localStorage.getItem('abilityListLength')) || 0;
-        for (let i = 1; i <= abilityListLength; i++) {
-            const ability = localStorage.getItem(`ability${i}`);
-            if (ability) {
-                abilities.push(ability);
-            }
-        }
+        const abilities = JSON.parse(localStorage.getItem('ability_inputs')) || [];
+        abilities.forEach(ability => {
+            ability.name = localStorage.getItem(`${ability.id}_name`) || '';
+            ability.description = localStorage.getItem(`${ability.id}_description`) || '';
+        });
 
         // Collect items
-        const items = [];
-        const itemListLength = parseInt(localStorage.getItem('ItemListLength')) || 0;
-        for (let i = 1; i <= itemListLength; i++) {
-            const item = localStorage.getItem(`Item${i}`);
-            if (item) {
-                items.push(item);
-            }
-        }
+        const items = JSON.parse(localStorage.getItem('Item_inputs')) || [];
+        items.forEach(item => {
+            item.name = localStorage.getItem(`${item.id}_name`) || '';
+            item.description = localStorage.getItem(`${item.id}_description`) || '';
+        });
 
         // Structure data into a JSON object
         const data = {
@@ -131,6 +125,8 @@ function App() {
         URL.revokeObjectURL(url);
     };
 
+
+
     const uploadJSON = (event) => {
         const file = event.target.files[0];
         if (!file) return;
@@ -139,18 +135,6 @@ function App() {
         reader.onload = (e) => {
             try {
                 const data = JSON.parse(e.target.result);
-
-                // Clear existing abilities and items
-                const abilityListLength = parseInt(localStorage.getItem('abilityListLength')) || 0;
-                for (let i = 1; i <= abilityListLength; i++) {
-                    localStorage.removeItem(`ability${i}`);
-                }
-                const itemListLength = parseInt(localStorage.getItem('ItemListLength')) || 0;
-                for (let i = 1; i <= itemListLength; i++) {
-                    localStorage.removeItem(`Item${i}`);
-                }
-                localStorage.setItem('abilityListLength', data.abilities.length);
-                localStorage.setItem('ItemListLength', data.items.length);
 
                 // Set name and description
                 localStorage.setItem('name', data.name || '');
@@ -164,14 +148,22 @@ function App() {
                 }
 
                 // Set abilities
-                data.abilities.forEach((ability, index) => {
-                    localStorage.setItem(`ability${index + 1}`, ability);
-                });
+                if (data.abilities && data.abilities.length > 0) {
+                    data.abilities.forEach(ability => {
+                        localStorage.setItem(`${ability.id}_name`, ability.name || '');
+                        localStorage.setItem(`${ability.id}_description`, ability.description || '');
+                    });
+                    localStorage.setItem('ability_inputs', JSON.stringify(data.abilities));
+                }
 
                 // Set items
-                data.items.forEach((item, index) => {
-                    localStorage.setItem(`Item${index + 1}`, item);
-                });
+                if (data.items && data.items.length > 0) {
+                    data.items.forEach(item => {
+                        localStorage.setItem(`${item.id}_name`, item.name || '');
+                        localStorage.setItem(`${item.id}_description`, item.description || '');
+                    });
+                    localStorage.setItem('Item_inputs', JSON.stringify(data.items));
+                }
 
                 // Reload the page to reflect the new data
                 window.location.reload();
@@ -182,6 +174,8 @@ function App() {
         };
         reader.readAsText(file);
     };
+
+
 
     return (
         <div>
