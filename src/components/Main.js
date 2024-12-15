@@ -125,8 +125,6 @@ function App() {
         URL.revokeObjectURL(url);
     };
 
-
-
     const uploadJSON = (event) => {
         const file = event.target.files[0];
         if (!file) return;
@@ -147,8 +145,16 @@ function App() {
                     localStorage.setItem(`${stat}_prowess`, data.stats[stat].prowess);
                 }
 
-                // Set abilities
-                if (data.abilities && data.abilities.length > 0) {
+                // Clear existing abilities and items if not present in the new data
+                if (!data.abilities || data.abilities.length === 0) {
+                    localStorage.removeItem('ability_inputs');
+                    const abilityInputs = JSON.parse(localStorage.getItem('ability_inputs')) || [];
+                    abilityInputs.forEach(ability => {
+                        localStorage.removeItem(`${ability.id}_name`);
+                        localStorage.removeItem(`${ability.id}_description`);
+                    });
+                } else {
+                    // Set abilities
                     data.abilities.forEach(ability => {
                         localStorage.setItem(`${ability.id}_name`, ability.name || '');
                         localStorage.setItem(`${ability.id}_description`, ability.description || '');
@@ -156,8 +162,15 @@ function App() {
                     localStorage.setItem('ability_inputs', JSON.stringify(data.abilities));
                 }
 
-                // Set items
-                if (data.items && data.items.length > 0) {
+                if (!data.items || data.items.length === 0) {
+                    localStorage.removeItem('Item_inputs');
+                    const itemInputs = JSON.parse(localStorage.getItem('Item_inputs')) || [];
+                    itemInputs.forEach(item => {
+                        localStorage.removeItem(`${item.id}_name`);
+                        localStorage.removeItem(`${item.id}_description`);
+                    });
+                } else {
+                    // Set items
                     data.items.forEach(item => {
                         localStorage.setItem(`${item.id}_name`, item.name || '');
                         localStorage.setItem(`${item.id}_description`, item.description || '');
@@ -174,8 +187,6 @@ function App() {
         };
         reader.readAsText(file);
     };
-
-
 
     return (
         <div>
