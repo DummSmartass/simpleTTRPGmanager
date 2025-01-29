@@ -14,7 +14,7 @@ const translations = {
         speed: "Speed",
         speedDesc: [
             "Each action requires time, represented as action points.",
-            "Every round, you receive as many action points as your speed stat. Exceeding your action points is only possible by using a reaction also order in which characters can move is as they want, but person with the most action points has priority if they want to move before others and are forced to move first if nobody want to."
+            "Every round, you receive as many action points as your speed stat + roll for speed. Exceeding your action points is only possible by using a reaction also order in which characters can move is as they want, but person with the smallest fraction of action points consumed in case of tie decided by amount has priority if they want to move before others and are forced to move first if nobody want to."
         ],
         coordination: "Coordination",
         coordinationDesc: [
@@ -39,12 +39,13 @@ const translations = {
         ],
         charisma: "Charisma",
         charismaDesc: [
-            "Governs the success of all social interactions and influences how others perceive you. Higher charisma makes you more intimidating or approachable, depending on intent."
+            "Governs the success of all social interactions and influences how others perceive you. Higher charisma makes you more intimidating or approachable also passively, depending on intent."
         ],
         health: "Health",
         healthDesc: [
             "Max health points are calculated as Health^2. You begin with maximum health, but this may fluctuate with damage or prolonged rest. Lasting injuries can reduce the maximum health, and full regeneration may be affected by comfort (dictated by endurance).",
-            "If health drops below 0, you faint and lose 1 point per round until reaching 0. If this doesn’t happen, you may either return to 1 HP or die on a coin toss. Dropping below -Health^2 results in permanent death."
+            "If health drops below 0, you faint and lose HP 1 point per round until either beeing healed above 0, having yourelf bandaged up(witch stops the effect unless reson for going under is ohter than trauma) or reaching -max hp and dying automatically",
+            "If there is little to no hope of getting help you may gamble your way to 1 HP or die on a coin toss where lifes advanatges and proves applies(prowes improves cointoss to d4) with a caviat that if you roll in multiple times a day you gain a level of disavantage for each."
         ],
         characterCreation: "Character Creation:",
         characterCreationSteps: [
@@ -93,8 +94,12 @@ const translations = {
         ruleOfBasicCommonSenseDesc: "If your character attempts an action equivalent person in real life could do without any preparation/learning, the game master will create a rule, requirement, or check to allow it in-game. For example, actions like pushing a library shelf onto an enemy, cauterizing a wound, or climbing a tree are possible even if not mentioned.",
         basicActions: "Basic Actions: YOU DO NOT HAVE TO LEARN THIS, YOU CAN JUST LOOK THEM UP IF NEEDED",
         meleeCombat: "Melee Combat:",
-        meleeCombatDesc: "Strength + roll for damage (includes fists and weapons, depending on weapon). Both parties roll Coordination (for hit/dodge), and the higher result succeeds. Uses 2 action points.",
-        holding: "Holding:",
+        meleeCombatDesc: [
+            "Once you enter an enemy's space, you may attack if they don't want to. Standard rules of priority apply unless there is a weapon length disparity, in which case the person with the longer weapon has priority. Remember, if someone approaches with a weapon, you can just keep running backwards.",
+            "If you have someone in range and decide to attack, you both sum values of (coordination + roll) for coordination. If the dodging person rolls higher, they avoid the attack altogether. In the event of the attacking party rolling higher, they deal damage.",
+            "MAX damage being (strength + roll) * dmg multiplier, but the hit person has damage reduced (before applying dmg multiplier) by their 2 * their coordination roll - enemy's coordination roll. A hit person subtract that many HP points as the damage they were dealt according to previous calculation-endurance (negative numbers round to 0)",
+            "To avoid situation when due to coordination person becomes untouchable or cannot miss there would be an exception allowing person to toss a coin and either autofail or double their dice for a hit or dodge roll"
+        ],        holding: "Holding:",
         holdingDesc: "Strength x 3 kg for carrying capacity. Rolling for additional strength requires a roll each round.",
         lifting: "Lifting:",
         liftingDesc: "(Strength + roll) x 3 kg overhead, uses 3 action points.",
@@ -127,13 +132,13 @@ const translations = {
         pureStrengthUse: "Pure strength use:",
         pureStrengthUseDesc: "Pulling pushing, knocking over, just a strength check. action points on case to case basis.",
         pureCoordinationUse: "Pure coordination use:",
-        pureCoordinationUseDesc: "Most manual actions just have a check for coordination and that's it. action points on case to case basis.",
+        pureCoordinationUseDesc: "Most manual actions just have a check for coordination and that's it. action points on case to case basis. To not make anything impossible you can toss a coin to autofail or get dice to roll doubled",
         willSaves: "Will saves:",
         willSavesDesc: "Most saves against emotions, pain, hunger etc have set of checks determining how bad you are doing and what effects of it are, some of which has to be repeated every round or if it's outside round whenever game master decides so. Also similarly to charisma only half of it is stat+roll the other part is the way you decide to try to handle yourself and your surroundings, doing good here could lower the difficulty.",
         pureIntelligenceRoll: "Pure intelligence roll:",
         pureIntelligenceRollDesc: "Similar to charisma, you roll and add it to base stat for recalling/understanding/whatever but it's only half a picture, the other half is environment, it's easier if you have more time, some silence etc.",
         pureEndurance: "Pure endurance:",
-        pureEnduranceDesc: "DOES NOT APPLY TO TANKING DAMAGE FROM ATTACKS. Usually you use base endurance for things like cold, heat, disease etc but you can choose to toughen up and roll for it, it increases chances of success but failure is treated same way critical failure would. Free action.",
+        pureEnduranceDesc: "Base endurance is a rate by which damage is reduced upon it beeing delt, be warn tho if there are multiple attacks into exact same spot it wears down ROLLING FOR ENDURANCE DOES NOT APPLY TO TANKING DAMAGE FROM ATTACKS. Usually you use base endurance for things like cold, heat, disease etc but you can choose to toughen up and roll for it, it increases chances of success but failure is treated same way critical failure would. Free action.",
         climbing: "Climbing:",
         climbingDesc: "Strength and coordination check based on surface and conditions failing either can get you down some of the way or all the way depending how much below you are on both combined, if you fail one but sum is above sum of requirements you reroll, 1m per action point by default.",
         stealth: "Stealth:",
@@ -177,8 +182,8 @@ const translations = {
         ],
         speed: "Szybkość",
         speedDesc: [
-            "Każda akcja wymaga czasu, reprezentowanego jako punkty akcji.",
-            "W każdej rundzie otrzymujesz tyle punktów akcji, ile wynosi Twój statystyk szybkości. Przekroczenie punktów akcji jest możliwe tylko przez użycie reakcji, kolejność, w której postacie mogą się poruszać, jest taka, jak chcą, ale osoba z największą liczbą punktów akcji ma priorytet, jeśli chce się poruszać przed innymi i jest zmuszona do poruszania się jako pierwsza, jeśli nikt nie chce."
+            "Każda akcja wymaga czasu, reprezentowanego przez punkty akcji.",
+            "W każdej rundzie otrzymujesz punkty akcji równe swojemu współczynnikowi szybkości plus rzut na szybkość. Przekroczenie punktów akcji jest możliwe tylko przy użyciu reakcji. Postacie mogą poruszać się w dowolnej kolejności, ale osoba z najmniejszym ułamkiem punktów akcji zkonsumowanych, w przypadku remisu największą liczbą punktów akcji ma priorytet, jeśli chce działać jako pierwsza, i jest zmuszona do działania jako pierwsza, jeśli nikt inny tego nie chce."
         ],
         coordination: "Koordynacja",
         coordinationDesc: [
@@ -203,12 +208,13 @@ const translations = {
         ],
         charisma: "Charyzma",
         charismaDesc: [
-            "Rządzi powodzeniem wszystkich interakcji społecznych i wpływa na to, jak inni postrzegają Ciebie. Wyższa charyzma czyni Cię bardziej zastraszającym lub przystępnym, w zależności od intencji."
+            "Rządzi powodzeniem wszystkich interakcji społecznych i wpływa na to, jak inni postrzegają Ciebie. Wyższa charyzma czyni Cię bardziej zastraszającym lub przystępnym również pasywnie, w zależności od intencji."
         ],
         health: "Zdrowie",
         healthDesc: [
-            "Maksymalna liczba punktów zdrowia obliczana jest jako Zdrowie^2. Zaczynasz z maksymalnym zdrowiem, ale może ono fluktuować wraz z obrażeniami lub długotrwałym odpoczynkiem. Trwałe obrażenia mogą zmniejszyć maksymalne zdrowie, a pełna regeneracja może być wpływana przez komfort (dyktowany przez wytrzymałość).",
-            "Jeśli zdrowie spadnie poniżej 0, mdlejesz i tracisz 1 punkt na rundę, aż osiągniesz 0. Jeśli to się nie stanie, możesz albo wrócić do 1 HP, albo umrzeć na rzut monetą. Spadek poniżej -Zdrowie^2 prowadzi do trwałej śmierci."
+            "Maksymalna liczba punktów zdrowia obliczana jest jako Zdrowie^2. Zaczynasz z maksymalnym zdrowiem, ale może ono fluktuować z powodu obrażeń lub długotrwałego odpoczynku. Trwałe obrażenia mogą zmniejszyć maksymalne zdrowie, a pełna regeneracja może zależeć od komfortu (określanego przez wytrzymałość).",
+            "Jeśli zdrowie spadnie poniżej 0, mdlejesz i tracisz 1 punkt zdrowia na rundę, dopóki nie zostaniesz uleczony powyżej 0, nie zostaniesz opatrzony (co zatrzymuje utratę HP, o ile przyczyna spadku nie jest nietraumatyczna), lub dopóki nie osiągniesz -maksymalnego zdrowia, co prowadzi do automatycznej śmierci.",
+            "Jeśli nie ma nadziei na pomoc, możesz zaryzykować i spróbować powrócić do 1 HP lub umrzeć, rzucając monetą. Korzyści życiowe i umiejętności mają zastosowanie (umiejętność zmienia rzut monetą na rzut k4). Jednakże, korzystanie z tej metody wielokrotnie w ciągu dnia nakłada kumulujące się poziomy kary."
         ],
         characterCreation: "Tworzenie Postaci:",
         characterCreationSteps: [
@@ -257,7 +263,12 @@ const translations = {
         ruleOfBasicCommonSenseDesc: "Jeśli Twoja postać próbuje wykonać czynność, którą równoważna osoba w rzeczywistości mogłaby wykonać bez przygotowania/uczenia się, mistrz gry stworzy zasadę, wymaganie lub sprawdzian, aby to pozwolić w grze. Na przykład, czynności takie jak przesuwanie półki bibliotecznej na wroga, przypalanie rany lub wspięcie się na drzewo są możliwe, nawet jeśli nie zostały wspomniane.",
         basicActions: "Podstawowe Akcje: NIE MUSISZ SIĘ TYM UCZYĆ, MOŻESZ POPROSTU SPRAWDZIĆ JE, JEŚLI BĘDZIE POTREBA",
         meleeCombat: "Walka Wręcz:",
-        meleeCombatDesc: "Siła + rzut na obrażenia (obejmuje pięści i broń, w zależności od broni). Obie strony rzucają Koordynacją (na trafienie/unik), a wyższy wynik powoduje sukces. Zużywa 2 punkty akcji.",
+        meleeCombatDesc: [
+            "Gdy wejdziesz w przestrzeń wroga, możesz zaatakować, jeśli on tego nie zrobi. Standardowe zasady prioryetu się aplikują, chyba że istnieje różnica w długości broni – w takim przypadku priorytet ma osoba z dłuższą bronią. Pamiętaj, że jeśli ktoś podchodzi z bronią, możesz po prostu biec do tyłu.",
+            "Jeśli masz kogoś w zasięgu i zdecydujesz się zaatakować, oboje sumujecie wartości (koordynacja + rzut) dla koordynacji. Jeśli osoba unikająca wyrzuci wyższy wynik, całkowicie unika ataku. W przypadku, gdy atakujący wyrzuci wyższy wynik, zadaje obrażenia.",
+            "MAKSYMALNE obrażenia to (siła + rzut) * mnożnik obrażeń, ale trafiona osoba redukuje otrzymane obrażenia (przed zastosowaniem mnożnika obrażeń) o 2 * swój rzut na koordynację - rzut koordynacji przeciwnika. Uderzona osoba odbiera z puli HP tyle punktów ile wynosi obliczony dmg - wytrzymałość (negatywne wartości zaookrągla się do 0)",
+            "Aby uniknąć sytuacji, w której ze względu na koordynację osoba staje się nietykalna lub nie może spudłować, istniałby wyjątek zezwalający osobie na rzucenie monetą i albo automatyczną porażkę, albo podwojenie kości w celu uzyskania trafienia lub uniku"
+        ],
         holding: "Trzymanie:",
         holdingDesc: "Siła x 3 kg na pojemność nośną. Rzucanie o dodatkową siłę wymaga rzutu każdej rundy.",
         lifting: "Podnoszenie:",
@@ -291,13 +302,13 @@ const translations = {
         pureStrengthUse: "Czyste użycie Siły:",
         pureStrengthUseDesc: "Ciągnienie, pchanie, przewracanie, tylko sprawdzian siły. punkty akcji na bieżąco.",
         pureCoordinationUse: "Czyste użycie Koordynacji:",
-        pureCoordinationUseDesc: "Większość czynności ręcznych ma tylko sprawdzian koordynacji i to wszystko. punkty akcji na bieżąco.",
+        pureCoordinationUseDesc: "Większość czynności ręcznych ma tylko sprawdzian koordynacji i to wszystko. punkty akcji na bieżąco. Aby uniknąć akcji niemożliwych możesz rzucić monetą i dostać utomatyczną porażkę albo drugie tyle kości",
         willSaves: "Ratunki Woli:",
         willSavesDesc: "Większość ratunków przed emocjami, bólem, głodem itp. ma zestaw sprawdzianów określających, jak Ci się powoduje i jakie są efekty, niektóre z nich muszą być powtarzane co rundę lub, jeśli jest to poza rundą, kiedy mistrz gry zdecyduje. Podobnie jak w przypadku charyzmy, tylko połowa to statystyka+rzut, a druga część to sposób, w jaki postanowisz poradzić sobie i swoim otoczeniem, dobrze robiąc to, możesz obniżyć trudność.",
         pureIntelligenceRoll: "Czysty rzut Inteligencji:",
         pureIntelligenceRollDesc: "Podobnie jak charyzma, rzucasz i dodajesz to do podstawowej statystyki na przypominanie sobie/rozumienie/cokolwiek, ale to tylko połowa obrazka, druga połowa to otoczenie, łatwiej jest, jeśli masz więcej czasu, trochę ciszy itp.",
         pureEndurance: "Czysta Wytrzymałość:",
-        pureEnduranceDesc: "NIE STOSUJE SIĘ DO TANKOWANIA OBRAŻEŃ Z ATAKÓW. Zwykle używasz podstawowej wytrzymałości na takie rzeczy jak zimno, upał, choroby itp, ale możesz postanowić się zahardzić i rzucić na to, zwiększa to szanse na sukces, ale porażka jest traktowana tak samo, jak krytyczna porażka. Wolna akcja.",
+        pureEnduranceDesc: "Bazowa wytrzymałość redukuje otryzmany dmg o swoją wartość, ale uważaj, jeżeli otrzymasz wiele ataków w jedno miejsce będzie ona zmniejszana o dmg ataków RZUCANIE NA WYTRZYMAŁOŚĆ NIE STOSUJE SIĘ DO TANKOWANIA OBRAŻEŃ Z ATAKÓW. Zwykle używasz podstawowej wytrzymałości na takie rzeczy jak zimno, upał, choroby itp, ale możesz postanowić się zahardzić i rzucić na to, zwiększa to szanse na sukces, ale porażka jest traktowana tak samo, jak krytyczna porażka. Wolna akcja.",
         climbing: "Wspinanie:",
         climbingDesc: "Sprawdzian siły i koordynacji w zależności od powierzchni i warunków, niepowodzenie w którymkolwiek może Ci spowodować upadek na część drogi lub całą drogę, w zależności, jak bardzo jesteś poniżej na obu łącznie, jeśli nie powiedzie Ci się jeden, ale suma jest powyżej sumy wymagań, rzucasz ponownie, 1m na punkt akcji domyślnie.",
         stealth: "Skradanie się:",
@@ -359,59 +370,59 @@ function AdditionalInfo() {
             <ul>
                 <li><strong>{t.strength}</strong>
                     <ul>
-                        <li>{t.strengthDesc[0]}</li>
-                        <li>{t.strengthDesc[1]}</li>
+                        <li>{t.strengthDesc}</li>
+                        <li>{t.strengthDesc}</li>
                     </ul>
                 </li>
                 <li><strong>{t.speed}</strong>
                     <ul>
-                        <li>{t.speedDesc[0]}</li>
-                        <li>{t.speedDesc[1]}</li>
+                        <li>{t.speedDesc}</li>
+                        <li>{t.speedDesc}</li>
                     </ul>
                 </li>
                 <li><strong>{t.coordination}</strong>
                     <ul>
-                        <li>{t.coordinationDesc[0]}</li>
+                        <li>{t.coordinationDesc}</li>
                     </ul>
                 </li>
                 <li><strong>{t.endurance}</strong>
                     <ul>
-                        <li>{t.enduranceDesc[0]}</li>
-                        <li>{t.enduranceDesc[1]}</li>
+                        <li>{t.enduranceDesc}</li>
+                        <li>{t.enduranceDesc}</li>
                     </ul>
                 </li>
                 <li><strong>{t.perception}</strong>
                     <ul>
-                        <li>{t.perceptionDesc[0]}</li>
+                        <li>{t.perceptionDesc}</li>
                     </ul>
                 </li>
                 <li><strong>{t.intelligence}</strong>
                     <ul>
-                        <li>{t.intelligenceDesc[0]}</li>
+                        <li>{t.intelligenceDesc}</li>
                     </ul>
                 </li>
                 <li><strong>{t.willpower}</strong>
                     <ul>
-                        <li>{t.willpowerDesc[0]}</li>
+                        <li>{t.willpowerDesc}</li>
                     </ul>
                 </li>
                 <li><strong>{t.charisma}</strong>
                     <ul>
-                        <li>{t.charismaDesc[0]}</li>
+                        <li>{t.charismaDesc}</li>
                     </ul>
                 </li>
                 <li><strong>{t.health}</strong>
                     <ul>
-                        <li>{t.healthDesc[0]}</li>
-                        <li>{t.healthDesc[1]}</li>
+                        <li>{t.healthDesc}</li>
+                        <li>{t.healthDesc}</li>
                     </ul>
                 </li>
             </ul>
 
             <h2>{t.characterCreation}</h2>
             <ol>
-                <li>{t.characterCreationSteps[0]}</li>
-                <li>{t.characterCreationSteps[1]}</li>
+                <li>{t.characterCreationSteps}</li>
+                <li>{t.characterCreationSteps}</li>
             </ol>
 
             <h2>{t.characterDevelopment}</h2>
@@ -421,8 +432,8 @@ function AdditionalInfo() {
                 <li><strong>{t.expertise}</strong> {t.expertiseDesc}</li>
                 <li><strong>{t.prowess}</strong>
                     <ul>
-                        <li>{t.prowessDesc[0]}</li>
-                        <li>{t.prowessDesc[1]}</li>
+                        <li>{t.prowessDesc}</li>
+                        <li>{t.prowessDesc}</li>
                     </ul>
                 </li>
                 <li><strong>{t.ability}</strong> {t.abilityDesc}</li>
@@ -447,8 +458,8 @@ function AdditionalInfo() {
                 <li><strong>{t.nonConflictingAction}</strong> {t.nonConflictingActionDesc}</li>
                 <li><strong>{t.partiallyConflictingActions}</strong>
                     <ul>
-                        <li>{t.partiallyConflictingActionsDesc[0]}</li>
-                        <li>{t.partiallyConflictingActionsDesc[1]}</li>
+                        <li>{t.partiallyConflictingActionsDesc}</li>
+                        <li>{t.partiallyConflictingActionsDesc}</li>
                     </ul>
                 </li>
                 <li><strong>{t.conflictingActions}</strong> {t.conflictingActionsDesc}</li>
