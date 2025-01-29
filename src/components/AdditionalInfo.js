@@ -370,14 +370,12 @@ function AdditionalInfo() {
             <ul>
                 <li><strong>{t.strength}</strong>
                     <ul>
-                        <li>{t.strengthDesc}</li>
-                        <li>{t.strengthDesc}</li>
+                    <li>{t.strengthDesc}</li>
                     </ul>
                 </li>
                 <li><strong>{t.speed}</strong>
                     <ul>
-                        <li>{t.speedDesc}</li>
-                        <li>{t.speedDesc}</li>
+                    <li>{t.speedDesc}</li>
                     </ul>
                 </li>
                 <li><strong>{t.coordination}</strong>
@@ -387,7 +385,6 @@ function AdditionalInfo() {
                 </li>
                 <li><strong>{t.endurance}</strong>
                     <ul>
-                        <li>{t.enduranceDesc}</li>
                         <li>{t.enduranceDesc}</li>
                     </ul>
                 </li>
@@ -414,7 +411,6 @@ function AdditionalInfo() {
                 <li><strong>{t.health}</strong>
                     <ul>
                         <li>{t.healthDesc}</li>
-                        <li>{t.healthDesc}</li>
                     </ul>
                 </li>
             </ul>
@@ -430,12 +426,7 @@ function AdditionalInfo() {
             <p>{t.directDesc}</p>
             <ul>
                 <li><strong>{t.expertise}</strong> {t.expertiseDesc}</li>
-                <li><strong>{t.prowess}</strong>
-                    <ul>
-                        <li>{t.prowessDesc}</li>
-                        <li>{t.prowessDesc}</li>
-                    </ul>
-                </li>
+                <li><strong>{t.prowess}</strong> {t.prowessDesc}</li>
                 <li><strong>{t.ability}</strong> {t.abilityDesc}</li>
                 <li><strong>{t.statPoints}</strong> {t.statPointsDesc}</li>
                 <li><strong>{t.other}</strong> {t.otherDesc}</li>
@@ -457,10 +448,7 @@ function AdditionalInfo() {
             <ul>
                 <li><strong>{t.nonConflictingAction}</strong> {t.nonConflictingActionDesc}</li>
                 <li><strong>{t.partiallyConflictingActions}</strong>
-                    <ul>
-                        <li>{t.partiallyConflictingActionsDesc}</li>
-                        <li>{t.partiallyConflictingActionsDesc}</li>
-                    </ul>
+                    <li>{t.partiallyConflictingActionsDesc}</li>
                 </li>
                 <li><strong>{t.conflictingActions}</strong> {t.conflictingActionsDesc}</li>
             </ul>
