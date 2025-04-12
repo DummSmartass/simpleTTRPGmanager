@@ -43,7 +43,7 @@ const translations = {
         ],
         health: "Health",
         healthDesc: [
-            "Max health points are calculated as Health^2. You begin with maximum health, but this may fluctuate with damage or prolonged rest. Lasting injuries can reduce the maximum health, and full regeneration may be affected by comfort (dictated by endurance).",
+            "Max health points are calculated as Health*|health|. You begin with maximum health, but this may fluctuate with damage or prolonged rest. Lasting injuries can reduce the maximum health, and full regeneration may be affected by comfort (dictated by endurance).",
             "If health drops below 0, you faint and lose HP 1 point per round until either beeing healed above 0, having yourelf bandaged up(witch stops the effect unless reson for going under is ohter than trauma) or reaching -max hp and dying automatically",
             "If there is little to no hope of getting help you may gamble your way to 1 HP or die on a coin toss where lifes advanatges and proves applies(prowes improves cointoss to d4) with a caviat that if you roll in multiple times a day you gain a level of disavantage for each."
         ],
@@ -72,9 +72,9 @@ const translations = {
         indirectDesc: "Characters can acquire new equipment, allies, or reputation.",
         criticalRolls: "Critical Rolls",
         criticalSuccess: "Critical Success:",
-        criticalSuccessDesc: "If you succeed and roll the highest number on a die, you may get a bonus effect. Higher prowess enhances crit effects (e.g., a Perception crit on d6 reveals a recent wound, while a crit on d20 reveals the enemy’s origin story).",
+        criticalSuccessDesc: "If you succeed and roll the highest number on a die you get to roll the same dices second time and add the result, a very high numbers can give positive effects beyond the scope of what you've planned(DOES NOT STACK)",
         criticalFailure: "Critical Failure:",
-        criticalFailureDesc: "If you fail and roll the lowest number, there may be negative effects like injuries.",
+        criticalFailureDesc: "If you succeed and roll the lowest number on a die you need to roll the same dices second time and substract the result, a very low numbers can give nasty effects beyond the scope of what you've planned(DOES NOT STACK)",
         multiAction: "Multi Action",
         multiActionDesc: "You can perform MANY actions at the same time",
         nonConflictingAction: "Non conflicting action",
@@ -98,7 +98,7 @@ const translations = {
             "Once you enter an enemy's space, you may attack if they don't want to. Standard rules of priority apply unless there is a weapon length disparity, in which case the person with the longer weapon has priority. Remember, if someone approaches with a weapon, you can just keep running backwards.",
             "If you have someone in range and decide to attack, you both sum values of (coordination + roll) for coordination. If the dodging person rolls higher, they avoid the attack altogether. In the event of the attacking party rolling higher, they deal damage.",
             "MAX damage being (strength + roll) * dmg multiplier, but the hit person has damage reduced (before applying dmg multiplier) by their 2 * their coordination roll - enemy's coordination roll. A hit person subtract that many HP points as the damage they were dealt according to previous calculation-endurance (negative numbers round to 0)",
-            "To avoid situation when due to coordination person becomes untouchable or cannot miss there would be an exception allowing person to toss a coin and either autofail or double their dice for a hit or dodge roll"
+            "To avoid situation when due to coordination person becomes untouchable or cannot miss there would be an exception allowing person to toss a coin and either autofail or double their dice for a hit or dodge roll, you can also block with your weapon which is easier but you both roll damage and if attacker rolls more than double what you do the difference goes thre(aslo blocking is as fast as dodging)"
         ],        holding: "Holding:",
         holdingDesc: "Strength x 3 kg for carrying capacity. Rolling for additional strength requires a roll each round.",
         lifting: "Lifting:",
@@ -212,7 +212,7 @@ const translations = {
         ],
         health: "Zdrowie",
         healthDesc: [
-            "Maksymalna liczba punktów zdrowia obliczana jest jako Zdrowie^2. Zaczynasz z maksymalnym zdrowiem, ale może ono fluktuować z powodu obrażeń lub długotrwałego odpoczynku. Trwałe obrażenia mogą zmniejszyć maksymalne zdrowie, a pełna regeneracja może zależeć od komfortu (określanego przez wytrzymałość).",
+            "Maksymalna liczba punktów zdrowia obliczana jest jako Zdrowie*|zdrowie|. Zaczynasz z maksymalnym zdrowiem, ale może ono fluktuować z powodu obrażeń lub długotrwałego odpoczynku. Trwałe obrażenia mogą zmniejszyć maksymalne zdrowie, a pełna regeneracja może zależeć od komfortu (określanego przez wytrzymałość).",
             "Jeśli zdrowie spadnie poniżej 0, mdlejesz i tracisz 1 punkt zdrowia na rundę, dopóki nie zostaniesz uleczony powyżej 0, nie zostaniesz opatrzony (co zatrzymuje utratę HP, o ile przyczyna spadku nie jest nietraumatyczna), lub dopóki nie osiągniesz -maksymalnego zdrowia, co prowadzi do automatycznej śmierci.",
             "Jeśli nie ma nadziei na pomoc, możesz zaryzykować i spróbować powrócić do 1 HP lub umrzeć, rzucając monetą. Korzyści życiowe i umiejętności mają zastosowanie (umiejętność zmienia rzut monetą na rzut k4). Jednakże, korzystanie z tej metody wielokrotnie w ciągu dnia nakłada kumulujące się poziomy kary."
         ],
@@ -240,10 +240,10 @@ const translations = {
         indirect: "Pośredni",
         indirectDesc: "Postacie mogą zdobywać nowe wyposażenie, sojuszników lub reputację.",
         criticalRolls: "Krytyczne Rzuty",
-        criticalSuccess: "Krytyczny Sukces:",
-        criticalSuccessDesc: "Jeśli powiedziesz się i wyrzucisz najwyższą liczbę na kości, możesz otrzymać dodatkowy efekt. Wyższa zręczność wzmacnia efekty krytyczne (np. krytyczny rzut Percepcji na d6 ujawnia niedawną ranę, podczas gdy krytyczny rzut na d20 ujawnia historię pochodzenia wroga).",
-        criticalFailure: "Krytyczna Porażka:",
-        criticalFailureDesc: "Jeśli nie powiedzie Ci się i wyrzucisz najniższą liczbę, może wystąpić negatywne efekty, takie jak obrażenia.",
+        criticalSuccess: "Sukces Krytyczny:",
+        criticalSuccessDesc: "Jeśli odniesiesz sukces i wyrzucisz najwyższą liczbę na kości, rzucasz tymi samymi kośćmi drugi raz i dodajesz wynik, bardzo wysokie liczby mogą dać pozytywne efekty wykraczające poza zakres tego, co zaplanowałeś(NIE KUMULUJE SIĘ)",
+        criticalFailure: "Porażka Krytyczna:",
+        criticalFailureDesc: "Jeśli odniesiesz sukces i wyrzucisz najniższą liczbę na kości, rzucasz tymi samymi kośćmi drugi raz i odejmujesz wynik, bardzo niskie liczby mogą dać paskudne efekty wykraczające poza zakres tego, co zaplanowałeś(NIE KUMULUJE SIĘ)",
         multiAction: "Wielokrotne Akcje",
         multiActionDesc: "Możesz wykonywać WIELE akcji jednocześnie",
         nonConflictingAction: "Niekonfliktująca akcja",
@@ -267,7 +267,7 @@ const translations = {
             "Gdy wejdziesz w przestrzeń wroga, możesz zaatakować, jeśli on tego nie zrobi. Standardowe zasady prioryetu się aplikują, chyba że istnieje różnica w długości broni – w takim przypadku priorytet ma osoba z dłuższą bronią. Pamiętaj, że jeśli ktoś podchodzi z bronią, możesz po prostu biec do tyłu.",
             "Jeśli masz kogoś w zasięgu i zdecydujesz się zaatakować, oboje sumujecie wartości (koordynacja + rzut) dla koordynacji. Jeśli osoba unikająca wyrzuci wyższy wynik, całkowicie unika ataku. W przypadku, gdy atakujący wyrzuci wyższy wynik, zadaje obrażenia.",
             "MAKSYMALNE obrażenia to (siła + rzut) * mnożnik obrażeń, ale trafiona osoba redukuje otrzymane obrażenia (przed zastosowaniem mnożnika obrażeń) o 2 * swój rzut na koordynację - rzut koordynacji przeciwnika. Uderzona osoba odbiera z puli HP tyle punktów ile wynosi obliczony dmg - wytrzymałość (negatywne wartości zaookrągla się do 0)",
-            "Aby uniknąć sytuacji, w której ze względu na koordynację osoba staje się nietykalna lub nie może spudłować, istniałby wyjątek zezwalający osobie na rzucenie monetą i albo automatyczną porażkę, albo podwojenie kości w celu uzyskania trafienia lub uniku"
+            "Aby uniknąć sytuacji, w której ze względu na koordynację osoba staje się nietykalna lub nie może spudłować, istniałby wyjątek zezwalający osobie na rzucenie monetą i albo automatyczną porażkę, albo podwojenie kości w celu uzyskania trafienia lub uniku. Bronią można blokować ataki co jest łatwiejsze ale trzeba rzucić na dmg własnej broni i jeżeli jest on ponad dwa razy mniejszy niż dmg broni przeciwnika to różnica przechodzi(również blokowanie jest tak szybkie jak unik) "
         ],
         holding: "Trzymanie:",
         holdingDesc: "Siła x 3 kg na pojemność nośną. Rzucanie o dodatkową siłę wymaga rzutu każdej rundy.",
@@ -417,7 +417,6 @@ function AdditionalInfo() {
 
             <h2>{t.characterCreation}</h2>
             <ol>
-                <li>{t.characterCreationSteps}</li>
                 <li>{t.characterCreationSteps}</li>
             </ol>
 

@@ -9,8 +9,8 @@ function InputNumber({ labelFor, hideLabel = false, small = false }) {
 
     const handleChange = (event) => {
         const inputValue = event.target.value;
-        // Check if the input value is a number
-        if (!isNaN(inputValue)) {
+        // Allow negative numbers and zero as valid input
+        if (/^-?\d*$/.test(inputValue)) {
             setValue(inputValue);
         }
     };

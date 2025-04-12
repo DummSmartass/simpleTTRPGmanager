@@ -1,3 +1,4 @@
+// Enhanced layout and visibility for HP/AP controls with proper number inputs and memory
 import React, { useState, useEffect } from 'react';
 import InputNumber from './InputNumber';
 import { useLanguage } from './LanguageContext';
@@ -34,6 +35,12 @@ const translations = {
         Will: "Will",
         Charisma: "Charisma",
         Life: "Life",
+        currentHP: "Current HP",
+        actionPoints: "Action Points",
+        resetCurrentHP: "Reset Current HP to default",
+        resetActionPoints: "Reset Action Points to default",
+        takeDamage: "Take Damage",
+        useAction: "Use Action Points"
     },
     pl: {
         stats: "Statystyki:",
@@ -54,6 +61,12 @@ const translations = {
         Will: "Wola",
         Charisma: "Charyzma",
         Life: "Życie",
+        currentHP: "Obecne HP",
+        actionPoints: "Punkty akcji",
+        resetCurrentHP: "Zresetuj Obecne HP do domyślnego",
+        resetActionPoints: "Zresetuj Punkty akcji do domyślnych",
+        takeDamage: "Otrzymaj Obrażenia",
+        useAction: "Zużyj Punkty Akcji"
     }
 };
 
@@ -88,115 +101,161 @@ function TotalPoints() {
     );
 }
 
-function HPTotal() {
-    const [hpTotal, setHPTotal] = useState(0);
-    const { language } = useLanguage();
-    const t = translations[language];
-
-    useEffect(() => {
-        const calculateHPTotal = () => {
-            const life = parseInt(localStorage.getItem('Life_points')) || 0;
-            setHPTotal(life * life);
-        };
-
-        calculateHPTotal();
-        const interval = setInterval(calculateHPTotal, 500);
-
-        return () => clearInterval(interval);
-    }, [language]);
-
-    return (
-        <tr>
-            <td colSpan="4" style={{ textAlign: 'left' }}>
-                <strong>{t.hpTotal}</strong> {hpTotal}
-            </td>
-        </tr>
-    );
-}
-
 function StatPoints() {
-    const [showInputs, setShowInputs] = useState(() => {
-        return localStorage.getItem("StatPoints_showInputs") === "true";
-    });
+    const [showInputs, setShowInputs] = useState(() => localStorage.getItem("StatPoints_showInputs") === "true");
     const { language } = useLanguage();
     const t = translations[language];
 
+    const [life, setLife] = useState(5);
+    const [speed, setSpeed] = useState(5);
+    const [endurance, setEndurance] = useState(5);
+
+    const [currentHP, setCurrentHP] = useState(() => parseInt(localStorage.getItem('currentHP')) || 0);
+    const [actionPoints, setActionPoints] = useState(() => parseInt(localStorage.getItem('actionPoints')) || 0);
+
+    const [hpSubtract, setHPSubtract] = useState(() => 0);
+    const [apSubtract, setAPSubtract] = useState(() => 0);
+
     useEffect(() => {
-        Object.keys(defaultStats).forEach(stat => {
-            if (!localStorage.getItem(`${stat}_points`)) {
-                localStorage.setItem(`${stat}_points`, defaultStats[stat]);
-            }
-            if (!localStorage.getItem(`${stat}_expertise`)) {
-                localStorage.setItem(`${stat}_expertise`, 0);
-            }
-            if (!localStorage.getItem(`${stat}_prowess`)) {
-                localStorage.setItem(`${stat}_prowess`, 0);
-            }
-        });
+        const updateStats = () => {
+            setLife(parseInt(localStorage.getItem('Life_points')) || 0);
+            setSpeed(parseInt(localStorage.getItem('Speed_points')) || 0);
+            setEndurance(parseInt(localStorage.getItem('Endurance_points')) || 0);
+        };
+        updateStats();
+        const interval = setInterval(updateStats, 500);
+        return () => clearInterval(interval);
     }, []);
 
     const toggleInputs = () => {
-        setShowInputs(prevState => {
-            const newState = !prevState;
-            localStorage.setItem("StatPoints_showInputs", newState);
-            return newState;
-        });
+        const newState = !showInputs;
+        setShowInputs(newState);
+        localStorage.setItem("StatPoints_showInputs", newState);
     };
 
-    const handleBlur = () => {
-        // Recalculate TotalPoints and HPTotal on value change
+    const resetHP = () => {
+        const val = life * life;
+        localStorage.setItem('currentHP', val);
+        setCurrentHP(val);
+    };
+
+    const resetAP = () => {
+        localStorage.setItem('actionPoints', speed);
+        setActionPoints(speed);
+    };
+
+    const takeDamage = () => {
+        const reduced = Math.max(0, hpSubtract - endurance);
+        const newHP = Math.max(0, currentHP - reduced);
+        localStorage.setItem('currentHP', newHP);
+        setCurrentHP(newHP);
+    };
+
+    const useAction = () => {
+        const newAP = Math.max(0, actionPoints - apSubtract);
+        localStorage.setItem('actionPoints', newAP);
+        setActionPoints(newAP);
     };
 
     return (
         <div className="stat-points">
             <label htmlFor="Stats">{t.stats}</label>
             <button onClick={toggleInputs}>{showInputs ? t.hide : t.show}</button>
+
             {showInputs && (
-                <div className="data-table">
-                    <table>
-                        <thead>
-                        <tr>
-                            <th>{t.stat}</th>
-                            <th>{t.points}</th>
-                            <th>{t.expertise}</th>
-                            <th>{t.prowess}</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {Object.keys(defaultStats).map(stat => (
-                            <tr key={stat}>
-                                <td>{t[stat]}</td>
-                                <td>
-                                    <InputNumber
-                                        labelFor={`${stat}_points`}
-                                        hideLabel
-                                        small
-                                        onBlur={handleBlur}
-                                    />
-                                </td>
-                                <td>
-                                    <InputNumber
-                                        labelFor={`${stat}_expertise`}
-                                        hideLabel
-                                        small
-                                        onBlur={handleBlur}
-                                    />
-                                </td>
-                                <td>
-                                    <InputNumber
-                                        labelFor={`${stat}_prowess`}
-                                        hideLabel
-                                        small
-                                        onBlur={handleBlur}
-                                    />
+                <>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginTop: '1rem' }}>
+                        <label>{t.currentHP}</label>
+                        <input
+                            type="number"
+                            value={currentHP}
+                            onChange={(e) => {
+                                const val = parseInt(e.target.value) || 0;
+                                localStorage.setItem('currentHP', val);
+                                setCurrentHP(val);
+                            }}
+                        />
+                        <button onClick={resetHP}>{t.resetCurrentHP}</button>
+                        <input
+                            type="number"
+                            value={hpSubtract}
+                            onChange={(e) => setHPSubtract(parseInt(e.target.value) || 0)}
+                        />
+                        <button onClick={takeDamage}>{t.takeDamage}</button>
+                        <span>{`${currentHP}/${life * life}`}</span>
+                    </div>
+
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginTop: '0.5rem' }}>
+                        <label>{t.actionPoints}</label>
+                        <input
+                            type="number"
+                            value={actionPoints}
+                            onChange={(e) => {
+                                const val = parseInt(e.target.value) || 0;
+                                localStorage.setItem('actionPoints', val);
+                                setActionPoints(val);
+                            }}
+                        />
+                        <button onClick={resetAP}>{t.resetActionPoints}</button>
+                        <input
+                            type="number"
+                            value={apSubtract}
+                            onChange={(e) => setAPSubtract(parseInt(e.target.value) || 0)}
+                        />
+                        <button onClick={useAction}>{t.useAction}</button>
+                        <span>{`${speed ? (actionPoints / speed).toFixed(2) : "0.00"}`}</span>
+                    </div>
+
+                    <div className="data-table">
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>{t.stat}</th>
+                                <th>{t.points}</th>
+                                <th>{t.expertise}</th>
+                                <th>{t.prowess}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {Object.keys(defaultStats).map(stat => (
+                                <tr key={stat}>
+                                    <td>{t[stat]}</td>
+                                    <td>
+                                        <InputNumber
+                                            labelFor={`${stat}_points`}
+                                            hideLabel
+                                            small
+                                            onBlur={() => {}}
+                                        />
+                                    </td>
+                                    <td>
+                                        <InputNumber
+                                            labelFor={`${stat}_expertise`}
+                                            hideLabel
+                                            small
+                                            onBlur={() => {}}
+                                        />
+                                    </td>
+                                    <td>
+                                        <InputNumber
+                                            labelFor={`${stat}_prowess`}
+                                            hideLabel
+                                            small
+                                            onBlur={() => {}}
+                                        />
+                                    </td>
+                                </tr>
+                            ))}
+                            <TotalPoints />
+                            <tr>
+                                <td colSpan="4" style={{ textAlign: 'left' }}>
+                                    <strong>{t.hpTotal}</strong> {life * Math.abs(life)}
                                 </td>
                             </tr>
-                        ))}
-                        <TotalPoints />
-                        <HPTotal />
-                        </tbody>
-                    </table>
-                </div>
+                            </tbody>
+                        </table>
+                    </div>
+                </>
             )}
         </div>
     );
