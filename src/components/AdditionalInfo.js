@@ -81,7 +81,7 @@ const translations = {
         nonConflictingActionDesc: "You can do multiple things that don't contradict each other at the same time and if they don't use the same stat you are good (like climbing a tree and looking for bird nests at the same time).",
         partiallyConflictingActions: "Partially conflicting actions",
         partiallyConflictingActionsDesc: [
-            "Some actions can mechanically get in each other's way or require the same stat in a way that would force a person to divide it in real life. In that case, you split the stat/base between them. Eg. Swinging two swords wouldn’t allow you to put on your force in either strike + those are two attacks so your base strength dictating damage is halved as well as base coordination for hit. OR You look for a hidden pressure plate avoiding traps dividing your base perception in two for those tasks. (Also you don't have to divide equally) (Also also if you are confident your base is enough you can give up rolling for one of those things) (Also Also Also things like jumping while attacking doesn't require splitting stats as they don't get in each other way)."
+            "Some actions can mechanically get in each other's way or require the same stat in a way that would force a person to divide it in real life. In that case, you split the stat/base between them roll for each and only take coresponding to split base fraction(round up) also you cant devote less than 1. Eg. Swinging two swords wouldn’t allow you to put on your force in either strike + those are two attacks so your base strength dictating damage is halved as well as base coordination for hit. OR You look for a hidden pressure plate avoiding traps dividing your base perception in two for those tasks. (Also you don't have to divide equally) (Also also if you are confident your base is enough you can give up rolling for one of those things) (Also Also Also things like jumping while attacking doesn't require splitting stats as they don't get in each other way)."
         ],
         conflictingActions: "Conflicting actions",
         conflictingActionsDesc: "If you are in the middle of an action that fully conflicts with something else (physically those things aren't doable at the same time) you can drop that action and get some of the action points back (how many depends on how many were there - how many the person that used the least action points used), it can only be done before you roll for it.",
@@ -98,11 +98,15 @@ const translations = {
             "Once you enter an enemy's space, you may attack if they don't want to. Standard rules of priority apply unless there is a weapon length disparity, in which case the person with the longer weapon has priority. Remember, if someone approaches with a weapon, you can just keep running backwards.",
             "If you have someone in range and decide to attack, you both sum values of (coordination + roll) for coordination. If the dodging person rolls higher, they avoid the attack altogether. In the event of the attacking party rolling higher, they deal damage.",
             "MAX damage being (strength + roll) * dmg multiplier, but the hit person has damage reduced (before applying dmg multiplier) by their 2 * their coordination roll - enemy's coordination roll. A hit person subtract that many HP points as the damage they were dealt according to previous calculation-endurance (negative numbers round to 0)",
-            "To avoid situation when due to coordination person becomes untouchable or cannot miss there would be an exception allowing person to toss a coin and either autofail or double their dice for a hit or dodge roll, you can also block with your weapon which is easier but you both roll damage and if attacker rolls more than double what you do the difference goes thre(aslo blocking is as fast as dodging)"
+            "To avoid situation when due to coordination person becomes untouchable or cannot miss there would be an exception allowing person to toss a coin and either autofail or double their dice for a hit or dodge roll, ",
+            "You can also block with your weapon which is easier but you both roll damage and if attacker rolls more than double what you do the difference goes thre(aslo blocking is as fast as dodging) ",
+            "You can also aim for the head which gives massive *1.5 dmg multiplier (after armor before endurance)(applied on damage taken-armor so all other boost compatable) but gives -3 to hit on top of anything you have"
         ],        holding: "Holding:",
         holdingDesc: "Strength x 3 kg for carrying capacity. Rolling for additional strength requires a roll each round.",
         lifting: "Lifting:",
         liftingDesc: "(Strength + roll) x 3 kg overhead, uses 3 action points.",
+        falling: "Fall DMG:",
+        fallingDesc: "5*(heigh[m]-1).",
         jumpingDistance: "Jumping (Distance):",
         jumpingDistanceDesc: "(Strength + roll) / 5 + Speed / 2 if running start is 40% of a round; uses 3 action points.",
         jumpingHeight: "Jumping (Height):",
@@ -116,7 +120,7 @@ const translations = {
         catch: "Catch:",
         catchDesc: "Roll Coordination.",
         running: "Running:",
-        runningDesc: "1 action point per 3m.",
+        runningDesc: "1 action point per 3m(6 hex). With 2 action points extra to inciate motion or 1 to change direction by one",
         castingSpells: "Casting Spells:",
         castingSpellsDesc: "Roll Will + roll for power, Perception or Intelligence for success (95% of spells).",
         breakingObjects: "Breaking Objects:",
@@ -250,7 +254,7 @@ const translations = {
         nonConflictingActionDesc: "Możesz robić wiele rzeczy, które się nie sprzeczają, jednocześnie, i jeśli nie używają tej samej statystyki, jesteś dobrze (jak wspinać się na drzewo i szukać gniazd ptasich jednocześnie).",
         partiallyConflictingActions: "Częściowo konfliktujące akcje",
         partiallyConflictingActionsDesc: [
-            "Niektóre akcje mogą mechanicznie przeszkadzać sobie nawzajem lub wymagać tej samej statystyki w taki sposób, że osoba musiałaby ją podzielić w rzeczywistości. W takim przypadku dzielisz statystykę/bazę między nimi. Na przykład machanie dwoma mieczami nie pozwoli Ci włożyć siły w żaden z ciosów + to są dwa ataki, więc Twoja podstawowa siła dyktująca obrażenia jest podzielona na pół, tak jak podstawowa koordynacja dla trafienia. LUB Szukasz ukrytej płyty ciśnieniowej unikając pułapek, dzieląc swoją podstawową percepcję na dwa dla tych zadań. (Nie musisz dzielić równo) (Jeśli jesteś pewny, że Twoja baza jest wystarczająca, możesz zrezygnować z rzucania dla jednej z tych rzeczy) (Również rzeczy takie jak skakanie podczas ataku nie wymagają dzielenia statystyk, ponieważ nie przeszkadzają sobie nawzajem)."
+            "Niektóre akcje mogą mechanicznie przeszkadzać sobie nawzajem lub wymagać tej samej statystyki w taki sposób, że osoba musiałaby ją podzielić w rzeczywistości. W takim przypadku dzielisz statystykę/bazę między nimi i rzucasz po czym dzielisz wyniki rzutów przybliżenie do tych samych proporcjaii(tylko bez ułaków) do rodzielenia statów. Na przykład machanie dwoma mieczami nie pozwoli Ci włożyć siły w żaden z ciosów + to są dwa ataki, więc Twoja podstawowa siła dyktująca obrażenia jest podzielona na pół, tak jak podstawowa koordynacja dla trafienia. LUB Szukasz ukrytej płyty ciśnieniowej unikając pułapek, dzieląc swoją podstawową percepcję na dwa dla tych zadań. (Nie musisz dzielić równo) (Jeśli jesteś pewny, że Twoja baza jest wystarczająca, możesz zrezygnować z rzucania dla jednej z tych rzeczy) (Również rzeczy takie jak skakanie podczas ataku nie wymagają dzielenia statystyk, ponieważ nie przeszkadzają sobie nawzajem)."
         ],
         conflictingActions: "Konfliktujące akcje",
         conflictingActionsDesc: "Jeśli jesteś w trakcie akcji, która całkowicie konfliktuje z czymś innym (fizycznie te rzeczy nie są do wykonania jednocześnie), możesz porzucić tę akcję i odzyskać część punktów akcji (ile zależy od tego, ile ich było - ile użyła osoba, która użyła najmniej punktów akcji), można to zrobić tylko przed rzutem.",
@@ -267,12 +271,16 @@ const translations = {
             "Gdy wejdziesz w przestrzeń wroga, możesz zaatakować, jeśli on tego nie zrobi. Standardowe zasady prioryetu się aplikują, chyba że istnieje różnica w długości broni – w takim przypadku priorytet ma osoba z dłuższą bronią. Pamiętaj, że jeśli ktoś podchodzi z bronią, możesz po prostu biec do tyłu.",
             "Jeśli masz kogoś w zasięgu i zdecydujesz się zaatakować, oboje sumujecie wartości (koordynacja + rzut) dla koordynacji. Jeśli osoba unikająca wyrzuci wyższy wynik, całkowicie unika ataku. W przypadku, gdy atakujący wyrzuci wyższy wynik, zadaje obrażenia.",
             "MAKSYMALNE obrażenia to (siła + rzut) * mnożnik obrażeń, ale trafiona osoba redukuje otrzymane obrażenia (przed zastosowaniem mnożnika obrażeń) o 2 * swój rzut na koordynację - rzut koordynacji przeciwnika. Uderzona osoba odbiera z puli HP tyle punktów ile wynosi obliczony dmg - wytrzymałość (negatywne wartości zaookrągla się do 0)",
-            "Aby uniknąć sytuacji, w której ze względu na koordynację osoba staje się nietykalna lub nie może spudłować, istniałby wyjątek zezwalający osobie na rzucenie monetą i albo automatyczną porażkę, albo podwojenie kości w celu uzyskania trafienia lub uniku. Bronią można blokować ataki co jest łatwiejsze ale trzeba rzucić na dmg własnej broni i jeżeli jest on ponad dwa razy mniejszy niż dmg broni przeciwnika to różnica przechodzi(również blokowanie jest tak szybkie jak unik) "
+            "Aby uniknąć sytuacji, w której ze względu na koordynację osoba staje się nietykalna lub nie może spudłować, istniałby wyjątek zezwalający osobie na rzucenie monetą i albo automatyczną porażkę, albo podwojenie kości w celu uzyskania trafienia lub uniku. ",
+            "Bronią można blokować ataki co jest łatwiejsze ale trzeba rzucić na dmg własnej broni i jeżeli jest on ponad dwa razy mniejszy niż dmg broni przeciwnika to różnica przechodzi(również blokowanie jest tak szybkie jak unik) ",
+            "Możesz też celować w głowe co daje masywny multiplikator *1.5 po zbroii przed wytrzymałością niezależny od innych multiplikatorów(czyli kompatybilny ze wszystkim dodawaczami i multiplikatorami) ale daje -3 do trafienia"
         ],
         holding: "Trzymanie:",
         holdingDesc: "Siła x 3 kg na pojemność nośną. Rzucanie o dodatkową siłę wymaga rzutu każdej rundy.",
         lifting: "Podnoszenie:",
         liftingDesc: "(Siła + rzut) x 3 kg nad głową, zużywa 3 punkty akcji.",
+        falling: "Obrażenia od upadku:",
+        fallingDesc: "5*(wysokość[m]-1).",
         jumpingDistance: "Skok (Dystans):",
         jumpingDistanceDesc: "(Siła + rzut) / 5 + Szybkość / 2, jeśli rozbieg to 40% rundy; zużywa 3 punkty akcji.",
         jumpingHeight: "Skok (Wysokość):",
@@ -286,7 +294,7 @@ const translations = {
         catch: "Chwyt:",
         catchDesc: "Rzucaj Koordynacją.",
         running: "Bieganie:",
-        runningDesc: "1 punkt akcji na 3m.",
+        runningDesc: "1 punkt akcji na 3m(6 hex) z 2 action pointami extra aby zainicjować ruch lub 1 aby zmienić kierunek o 1.",
         castingSpells: "Rzucanie Czarów:",
         castingSpellsDesc: "Rzucaj Wola + rzut na moc, Percepcja lub Inteligencja na sukces (95% czarów).",
         breakingObjects: "Niszczenie Przedmiotów:",
@@ -464,6 +472,7 @@ function AdditionalInfo() {
                 <li><strong>{t.meleeCombat}</strong> {t.meleeCombatDesc}</li>
                 <li><strong>{t.holding}</strong> {t.holdingDesc}</li>
                 <li><strong>{t.lifting}</strong> {t.liftingDesc}</li>
+                <li><strong>{t.falling}</strong> {t.fallingDesc}</li>
                 <li><strong>{t.jumpingDistance}</strong> {t.jumpingDistanceDesc}</li>
                 <li><strong>{t.jumpingHeight}</strong> {t.jumpingHeightDesc}</li>
                 <li><strong>{t.throwing}</strong> {t.throwingDesc}</li>
