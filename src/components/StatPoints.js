@@ -146,7 +146,7 @@ function StatPoints() {
 
     const takeDamage = () => {
         const reduced = Math.max(0, hpSubtract - endurance);
-        const newHP = Math.max(0, currentHP - reduced);
+        const newHP = currentHP - reduced;
         localStorage.setItem('currentHP', newHP);
         setCurrentHP(newHP);
     };
@@ -166,6 +166,8 @@ function StatPoints() {
                 <>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginTop: '1rem' }}>
                         <label>{t.currentHP}</label>
+                    </div>
+                    <div>
                         <input
                             type="number"
                             value={currentHP}
@@ -176,6 +178,8 @@ function StatPoints() {
                             }}
                         />
                         <button onClick={resetHP}>{t.resetCurrentHP}</button>
+                    </div>
+                    <div>
                         <input
                             type="number"
                             value={hpSubtract}
@@ -187,6 +191,8 @@ function StatPoints() {
 
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginTop: '0.5rem' }}>
                         <label>{t.actionPoints}</label>
+                    </div>
+                    <div>
                         <input
                             type="number"
                             value={actionPoints}
@@ -197,6 +203,8 @@ function StatPoints() {
                             }}
                         />
                         <button onClick={resetAP}>{t.resetActionPoints}</button>
+                    </div>
+                    <div>
                         <input
                             type="number"
                             value={apSubtract}
